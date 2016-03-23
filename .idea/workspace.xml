@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c919268f-4366-48b4-b881-07d6c6196f2b" name="Default" comment="first task00">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/java/App1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/java/App2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/java/Member.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/java/Members.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/java/Menu.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/java/Phone.class" afterPath="" />
+    <list default="true" id="c919268f-4366-48b4-b881-07d6c6196f2b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="app1.iws" />
@@ -870,7 +864,7 @@
       <workItem from="1456336150373" duration="26057000" />
       <workItem from="1456395498445" duration="20502000" />
       <workItem from="1457516168913" duration="1247000" />
-      <workItem from="1458718452806" duration="13424000" />
+      <workItem from="1458718452806" duration="13451000" />
     </task>
     <task id="LOCAL-00001" summary="third">
       <created>1458740326008</created>
@@ -896,11 +890,17 @@
       <option name="project" value="LOCAL" />
       <updated>1458745393255</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="first task00">
+      <created>1458770500230</created>
+      <option name="number" value="00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1458770500230</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="106268000" />
+    <option name="totallyTimeSpent" value="106295000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -954,9 +954,9 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="third" />
     <MESSAGE value="added ArrayList, some refactoring..." />
-    <MESSAGE value="first task00" />
     <MESSAGE value="refactoring structure of application" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactoring structure of application" />
+    <MESSAGE value="first task00" />
+    <option name="LAST_COMMIT_MESSAGE" value="first task00" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
