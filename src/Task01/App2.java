@@ -1,4 +1,5 @@
-import java.awt.*;
+package Task01;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -232,7 +233,7 @@ class Members {
                     System.out.print(" Поиск по номеру ID.\n");
                     for (int i = 0; i < memberList.size(); i++) {
                         if (memberList.get(i).getId() == newMember.getId()) {
-                            memberList.get(i).showMember();
+                            System.out.println(memberList.get(i).toString());
                             count_wr++;
                         }
                     }
@@ -243,7 +244,7 @@ class Members {
                     System.out.print(" Поиск по имени.\n");
                     for (int i = 0; i < memberList.size(); i++) {
                         if (memberList.get(i).getFname().compareTo(newMember.getFname()) == 0) {
-                            memberList.get(i).showMember();
+                            System.out.println(memberList.get(i).toString());
                             count_wr++;
                         }
                     }
@@ -254,7 +255,7 @@ class Members {
                     System.out.print(" Поиск по фамилии.\n");
                     for (int i = 0; i < memberList.size(); i++) {
                         if (memberList.get(i).getLname().compareTo(newMember.getLname()) == 0) {
-                            memberList.get(i).showMember();
+                            System.out.println(memberList.get(i).toString());
                             count_wr++;
                         }
                     }
@@ -266,7 +267,7 @@ class Members {
                     System.out.print(" Поиск по номеру телефона.\n");
                     for (int i = 0; i < memberList.size(); i++) {
                         if (memberList.get(i).phoneNumber.getNum().compareTo(newMember.phoneNumber.getNum()) == 0) {
-                            memberList.get(i).showMember();
+                            System.out.println(memberList.get(i).toString());
                             count_wr++;
                         }
                     }
@@ -276,7 +277,7 @@ class Members {
                     System.out.print(" Поиск по типу номера.\n");
                     for (int i = 0; i < memberList.size(); i++) {
                         if (memberList.get(i).phoneNumber.getType() == newMember.phoneNumber.getType()) {
-                            memberList.get(i).showMember();
+                            System.out.println(memberList.get(i).toString());
                             count_wr++;
                         }
                     }
@@ -287,7 +288,7 @@ class Members {
                     System.out.print(" Поиск по  отношениям.\n");
                     for (int i = 0; i < memberList.size(); i++) {
                         if (memberList.get(i).getRelative().compareTo(newMember.getRelative()) == 0) {
-                            memberList.get(i).showMember();
+                            System.out.println(memberList.get(i).toString());
                             count_wr++;
                         }
                     }
@@ -328,7 +329,7 @@ class Members {
             {
                 for (int i = 0; i < memberList.size(); i++) {
                     if (memberList.get(i).getId() == newMember.getId()) {
-                        memberList.get(i).showMember();
+                        System.out.println(memberList.get(i).toString());
                         forDelete[count_wr] = i;
                         count_wr++;
                     }
@@ -339,7 +340,7 @@ class Members {
             {
                 for (int i = 0; i < memberList.size(); i++) {
                     if (memberList.get(i).getFname().compareTo(newMember.getFname()) == 0) {
-                        memberList.get(i).showMember();
+                        System.out.println(memberList.get(i).toString());
                         forDelete[count_wr] = i;
                         count_wr++;
                     }
@@ -350,7 +351,7 @@ class Members {
             {
                 for (int i = 0; i < memberList.size(); i++) {
                     if (memberList.get(i).getLname().compareTo(newMember.getLname()) == 0) {
-                        memberList.get(i).showMember();
+                        System.out.println(memberList.get(i).toString());
                         forDelete[count_wr] = i;
                         count_wr++;
                     }
@@ -361,7 +362,7 @@ class Members {
             {
                 for (int i = 0; i < memberList.size(); i++) {
                     if (memberList.get(i).phoneNumber.getNum().compareTo(newMember.phoneNumber.getNum()) == 0) {
-                        memberList.get(i).showMember();
+                        System.out.println(memberList.get(i).toString());
                         forDelete[count_wr] = i;
                         count_wr++;
                     }
@@ -372,7 +373,7 @@ class Members {
             {
                 for (int i = 0; i < memberList.size(); i++) {
                     if (memberList.get(i).phoneNumber.getType() == newMember.phoneNumber.getType()) {
-                        memberList.get(i).showMember();
+                        System.out.println(memberList.get(i).toString());
                         forDelete[count_wr] = i;
                         count_wr++;
                     }
@@ -383,7 +384,7 @@ class Members {
             {
                 for (int i = 0; i < memberList.size(); i++) {
                     if (memberList.get(i).getRelative().compareTo(newMember.getRelative()) == 0) {
-                        memberList.get(i).showMember();
+                        System.out.println(memberList.get(i).toString());
                         forDelete[count_wr] = i;
                         count_wr++;
                     }
@@ -474,7 +475,7 @@ class Members {
     public void showAll() {
         if (this.getCount() > 0) {
             for (int i = 0; i < this.getCount(); i++) {
-                memberList.get(i).showMember();
+                System.out.println(memberList.get(i).toString());
             }
         } else {
             System.out.println(" Нет записей ...\n");
@@ -636,10 +637,10 @@ class Phone {
 
 // класс персоны
 class Member {
-    private int id;//               Id
-    private String fname;//         Имя
-    private String lname;//         Фамилия
-    Phone phoneNumber;//    Номер телефона (тоже объект)
+    private int id;         //      Id
+    private String fname;   //      Имя
+    private String lname;   //      Фамилия
+    Phone phoneNumber;      //      Номер телефона (тоже объект)
     private String relative;//      Список тегов (например: друг, коллега, семья и т.д)
 
     public Member() {
@@ -697,15 +698,12 @@ class Member {
         return relative;
     }
 
-    public void showMember() {
-        System.out.format("%2d ", this.id);
-        System.out.format("%s %s", this.fname, " " + this.lname);
+    public String toString() {
         int n = 28 - this.fname.length() - this.lname.length();
-
-        while (n != 0) {
-            System.out.print(' ');
-            n--;
+        String space = "";
+        while (n-- != 0) {
+            space = space.concat(" ");
         }
-        System.out.format("%s %s", this.phoneNumber.getPhone(), this.relative + '\n');
+        return String.format("%2d %s %s %s %s %s", this.id, this.fname, this.lname, space, this.phoneNumber.getPhone(), this.relative);
     }
 }
