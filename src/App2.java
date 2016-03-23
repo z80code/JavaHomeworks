@@ -1,3 +1,5 @@
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class App2 {
@@ -24,7 +26,7 @@ public class App2 {
             mode = menu.mainMenu(memberList.getCount());
             switch (mode) {
                 case 1: {// добавление
-                    Member newMember = memberList.EnterNewMemberAttribute(0, -1);
+                    Member newMember = memberList.EnterNewMemberAttribute(0, -1, false);
                     memberList.add(newMember);
                     break;
                 }
@@ -39,7 +41,7 @@ public class App2 {
                     }
                     int index = menu.findMenu();
                     if (index == 0) break;
-                    Member newMember = memberList.EnterNewMemberAttribute(index, -1);
+                    Member newMember = memberList.EnterNewMemberAttribute(index, -1, true);
                     memberList.find(newMember, index);
                     break;
                 }
@@ -50,7 +52,7 @@ public class App2 {
                     }
                     int index = menu.findMenu();
                     if (index == 0) break;
-                    Member newMember = memberList.EnterNewMemberAttribute(index, -1);
+                    Member newMember = memberList.EnterNewMemberAttribute(index, -1, true);
                     memberList.delete(newMember, index);
                     break;
                 }
@@ -77,7 +79,7 @@ public class App2 {
                         select = menu.selectMenu();// выбор ID для смены
                         select = memberList.idExist(select);
                     } while (select < 0);
-                    memberList.EnterNewMemberAttribute(index, select);
+                    memberList.EnterNewMemberAttribute(index, select, false);
                     break;
                 }
             }
@@ -87,11 +89,11 @@ public class App2 {
 
 class Members {
 
-    private Member[] memberList = null;
+    private ArrayList<Member> memberList = new ArrayList();
     private int getSelector() {
         int max = 0;
         for (int i = 0; i < this.getCount(); i++) {
-            max = (memberList[i].getId() > max) ? memberList[i].getId() : max;
+            max = (memberList.get(i).getId() > max) ? memberList.get(i).getId() : max;
         }
         return max + 1;
     }
@@ -101,7 +103,7 @@ class Members {
     *   заданному в поле "newMember"
     */
     public int getCount() {
-        if (memberList != null) return memberList.length;
+        if (memberList != null) return memberList.size();
         else return 0;
     }
 
@@ -110,10 +112,10 @@ class Members {
             memberList[index].showMember();
         }
     */
-    public Member EnterNewMemberAttribute(int index, int select) {
+    public Member EnterNewMemberAttribute(int index, int select, boolean idSet) {
         Member newMember;
         if (select < 0) newMember = new Member();
-        else newMember = this.memberList[select];
+        else newMember = this.memberList.get(select);
         Phone phone = new Phone();
         System.out.println("\n Введите следующие данные:\n");
         int rezult = 1;
@@ -121,12 +123,15 @@ class Members {
             do {
                 try {
                     System.out.print(" Номер ID: ");
-                    /*
-                    Scanner scan = new Scanner(System.in);
-                    newMember.setId(scan.nextInt());
-                    */
-                    System.out.println(getSelector());
-                    newMember.setId(getSelector());
+                    if (idSet) {
+                        Scanner scan = new Scanner(System.in);
+                        newMember.setId(scan.nextInt());
+                    }
+                    else {
+                        System.out.println(getSelector());
+                        newMember.setId(getSelector());
+                    }
+
                     rezult = 0;
                 } catch (Exception e) {
                     System.out.println(" Это целочисленное значение!");
@@ -225,9 +230,9 @@ class Members {
                 case 1:/// Поиск по номеру id.
                 {
                     System.out.print(" Поиск по номеру ID.\n");
-                    for (int i = 0; i < memberList.length; i++) {
-                        if (memberList[i].getId() == newMember.getId()) {
-                            memberList[i].showMember();
+                    for (int i = 0; i < memberList.size(); i++) {
+                        if (memberList.get(i).getId() == newMember.getId()) {
+                            memberList.get(i).showMember();
                             count_wr++;
                         }
                     }
@@ -236,9 +241,9 @@ class Members {
                 case 2:/// Поиск по имени.
                 {
                     System.out.print(" Поиск по имени.\n");
-                    for (int i = 0; i < memberList.length; i++) {
-                        if (memberList[i].getFname().compareTo(newMember.getFname()) == 0) {
-                            memberList[i].showMember();
+                    for (int i = 0; i < memberList.size(); i++) {
+                        if (memberList.get(i).getFname().compareTo(newMember.getFname()) == 0) {
+                            memberList.get(i).showMember();
                             count_wr++;
                         }
                     }
@@ -247,9 +252,9 @@ class Members {
                 case 3:/// Поиск по фамилии.
                 {
                     System.out.print(" Поиск по фамилии.\n");
-                    for (int i = 0; i < memberList.length; i++) {
-                        if (memberList[i].getLname().compareTo(newMember.getLname()) == 0) {
-                            memberList[i].showMember();
+                    for (int i = 0; i < memberList.size(); i++) {
+                        if (memberList.get(i).getLname().compareTo(newMember.getLname()) == 0) {
+                            memberList.get(i).showMember();
                             count_wr++;
                         }
                     }
@@ -259,9 +264,9 @@ class Members {
                 case 4:/// Поиск по номеру телефона.
                 {
                     System.out.print(" Поиск по номеру телефона.\n");
-                    for (int i = 0; i < memberList.length; i++) {
-                        if (memberList[i].phoneNumber.getNum().compareTo(newMember.phoneNumber.getNum()) == 0) {
-                            memberList[i].showMember();
+                    for (int i = 0; i < memberList.size(); i++) {
+                        if (memberList.get(i).phoneNumber.getNum().compareTo(newMember.phoneNumber.getNum()) == 0) {
+                            memberList.get(i).showMember();
                             count_wr++;
                         }
                     }
@@ -269,9 +274,9 @@ class Members {
                 }
                 case 5:/// Поиск по типу номера.
                     System.out.print(" Поиск по типу номера.\n");
-                    for (int i = 0; i < memberList.length; i++) {
-                        if (memberList[i].phoneNumber.getType() == newMember.phoneNumber.getType()) {
-                            memberList[i].showMember();
+                    for (int i = 0; i < memberList.size(); i++) {
+                        if (memberList.get(i).phoneNumber.getType() == newMember.phoneNumber.getType()) {
+                            memberList.get(i).showMember();
                             count_wr++;
                         }
                     }
@@ -280,9 +285,9 @@ class Members {
                 case 6:/// Поиск по отношениям.
                 {
                     System.out.print(" Поиск по  отношениям.\n");
-                    for (int i = 0; i < memberList.length; i++) {
-                        if (memberList[i].getRelative().compareTo(newMember.getRelative()) == 0) {
-                            memberList[i].showMember();
+                    for (int i = 0; i < memberList.size(); i++) {
+                        if (memberList.get(i).getRelative().compareTo(newMember.getRelative()) == 0) {
+                            memberList.get(i).showMember();
                             count_wr++;
                         }
                     }
@@ -304,17 +309,8 @@ class Members {
     *   заданной в поле "newMember"
     */
     public void add(Member newMember) {
-
-        Member[] newMemberList = new Member[this.getCount() + 1];
-        int i;
-        if (this.getCount() > 0) {
-            for (i = 0; i < this.getCount(); i++) {
-                newMemberList[i] = memberList[i];
-            }
-        }
         newMember.setId(getSelector());
-        newMemberList[this.getCount()] = newMember;
-        memberList = newMemberList;
+        memberList.add(newMember);
         //
         System.out.println(" Добавлено!");
     }
@@ -325,14 +321,14 @@ class Members {
     */
     public void delete(Member newMember, int index) {
 
-        int[] forDelete = new int[memberList.length];
+        int[] forDelete = new int[memberList.size()];
         int count_wr = 0;
         switch (index) {
             case 1:/// Удаление по номеру ID.
             {
-                for (int i = 0; i < memberList.length; i++) {
-                    if (memberList[i].getId() == newMember.getId()) {
-                        memberList[i].showMember();
+                for (int i = 0; i < memberList.size(); i++) {
+                    if (memberList.get(i).getId() == newMember.getId()) {
+                        memberList.get(i).showMember();
                         forDelete[count_wr] = i;
                         count_wr++;
                     }
@@ -341,9 +337,9 @@ class Members {
             }
             case 2:/// Удаление по Имени.
             {
-                for (int i = 0; i < memberList.length; i++) {
-                    if (memberList[i].getFname().compareTo(newMember.getFname()) == 0) {
-                        memberList[i].showMember();
+                for (int i = 0; i < memberList.size(); i++) {
+                    if (memberList.get(i).getFname().compareTo(newMember.getFname()) == 0) {
+                        memberList.get(i).showMember();
                         forDelete[count_wr] = i;
                         count_wr++;
                     }
@@ -352,9 +348,9 @@ class Members {
             }
             case 3:/// Удаление по фамилии.
             {
-                for (int i = 0; i < memberList.length; i++) {
-                    if (memberList[i].getLname().compareTo(newMember.getLname()) == 0) {
-                        memberList[i].showMember();
+                for (int i = 0; i < memberList.size(); i++) {
+                    if (memberList.get(i).getLname().compareTo(newMember.getLname()) == 0) {
+                        memberList.get(i).showMember();
                         forDelete[count_wr] = i;
                         count_wr++;
                     }
@@ -363,9 +359,9 @@ class Members {
             }
             case 4:/// Удаление по номеру телефона.
             {
-                for (int i = 0; i < memberList.length; i++) {
-                    if (memberList[i].phoneNumber.getNum().compareTo(newMember.phoneNumber.getNum()) == 0) {
-                        memberList[i].showMember();
+                for (int i = 0; i < memberList.size(); i++) {
+                    if (memberList.get(i).phoneNumber.getNum().compareTo(newMember.phoneNumber.getNum()) == 0) {
+                        memberList.get(i).showMember();
                         forDelete[count_wr] = i;
                         count_wr++;
                     }
@@ -374,9 +370,9 @@ class Members {
             }
             case 5:/// Удаление по типу телефона.
             {
-                for (int i = 0; i < memberList.length; i++) {
-                    if (memberList[i].phoneNumber.getType() == newMember.phoneNumber.getType()) {
-                        memberList[i].showMember();
+                for (int i = 0; i < memberList.size(); i++) {
+                    if (memberList.get(i).phoneNumber.getType() == newMember.phoneNumber.getType()) {
+                        memberList.get(i).showMember();
                         forDelete[count_wr] = i;
                         count_wr++;
                     }
@@ -385,9 +381,9 @@ class Members {
             }
             case 6:/// Удаление по типу телефона.
             {
-                for (int i = 0; i < memberList.length; i++) {
-                    if (memberList[i].getRelative().compareTo(newMember.getRelative()) == 0) {
-                        memberList[i].showMember();
+                for (int i = 0; i < memberList.size(); i++) {
+                    if (memberList.get(i).getRelative().compareTo(newMember.getRelative()) == 0) {
+                        memberList.get(i).showMember();
                         forDelete[count_wr] = i;
                         count_wr++;
                     }
@@ -406,19 +402,15 @@ class Members {
         if (count_wr != 0) {
             if (chose())/// если ДА - Удаляем
             {
-                int baseSize = memberList.length;
+                int baseSize = memberList.size();
                 for (int i = count_wr - 1; i >= 0; i--) {
                     if (forDelete[i] != baseSize - 1) {
-                        memberList[forDelete[i]] = memberList[baseSize - 1];
+                        memberList.set(forDelete[i],memberList.get(baseSize - 1));
+                        //memberList[forDelete[i]] = memberList[baseSize - 1];
                     }
+                    memberList.remove(baseSize - 1);
                     baseSize--;
                 }
-                Member[] newMemberList = new Member[baseSize];
-                if (newMemberList != null)
-                    for (int i = 0; i < newMemberList.length; i++) {
-                        newMemberList[i] = memberList[i];
-                    }
-                this.memberList = newMemberList;
                 System.out.println(" Данные удалены.");
             } else System.out.println(" Удаление отменено.");
         } else {
@@ -427,54 +419,54 @@ class Members {
     }
 
     public void sort(int index) {
-        int i, j, k, N = memberList.length;
+        int i, j, k, N = memberList.size();
         Member t;
         for (k = N / 2; k > 0; k /= 2)
             for (i = k; i < N; i += 1) {//с середины и до конца
-                t = memberList[i];
+                t = memberList.get(i);
                 for (j = i; j >= k; j -= k) {
                     if (index == 1) {
-                        if (t.getId() < memberList[j - k].getId()) {
-                            memberList[j] = memberList[j - k];
+                        if (t.getId() < memberList.get(j - k).getId()) {
+                            memberList.set(j, memberList.get(j - k));
                         } else
                             break;
                     }
                     if (index == 2) {
-                        if (t.getFname().compareTo(memberList[j - k].getFname()) < 0) {
+                        if (t.getFname().compareTo(memberList.get(j - k).getFname()) < 0) {
 
-                            memberList[j] = memberList[j - k];
+                            memberList.set(j, memberList.get(j - k));
                         } else
                             break;
                     }
                     if (index == 3) {
-                        if (t.getLname().compareTo(memberList[j - k].getLname()) < 0) {
+                        if (t.getLname().compareTo(memberList.get(j - k).getLname()) < 0) {
 
-                            memberList[j] = memberList[j - k];
+                            memberList.set(j, memberList.get(j - k));
                         } else
                             break;
                     }
                     if (index == 4) {
-                        if (t.phoneNumber.getNum().compareTo(memberList[j - k].phoneNumber.getNum()) < 0) {
-                            memberList[j] = memberList[j - k];
+                        if (t.phoneNumber.getNum().compareTo(memberList.get(j - k).phoneNumber.getNum()) < 0) {
+                            memberList.set(j, memberList.get(j - k));
                         } else
                             break;
                     }
                     if (index == 5) {
-                        if (t.phoneNumber.getType() < memberList[j - k].phoneNumber.getType()) {
+                        if (t.phoneNumber.getType() < memberList.get(j - k).phoneNumber.getType()) {
 
-                            memberList[j] = memberList[j - k];
+                            memberList.set(j, memberList.get(j - k));
                         } else
                             break;
                     }
                     if (index == 6) {
-                        if (t.getRelative().compareTo(memberList[j - k].getRelative()) < 0) {
+                        if (t.getRelative().compareTo(memberList.get(j - k).getRelative()) < 0) {
 
-                            memberList[j] = memberList[j - k];
+                            memberList.set(j, memberList.get(j - k));
                         } else
                             break;
                     }
                 }
-                memberList[j] = t;
+                memberList.set(j, t);
             }
         System.out.println(" Отсортировано.\n");
     }
@@ -482,7 +474,7 @@ class Members {
     public void showAll() {
         if (this.getCount() > 0) {
             for (int i = 0; i < this.getCount(); i++) {
-                memberList[i].showMember();
+                memberList.get(i).showMember();
             }
         } else {
             System.out.println(" Нет записей ...\n");
@@ -491,7 +483,7 @@ class Members {
 
     public int idExist(int id) {
         for (int i = 0; i < this.getCount(); i++) {
-            if (this.memberList[i].getId() == id) return i;
+            if (this.memberList.get(i).getId() == id) return i;
         }
         System.out.println("Нет такого ID. Повторите ввод ID.");
         return -1;
