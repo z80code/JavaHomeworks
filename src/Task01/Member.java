@@ -4,15 +4,18 @@ package Task01;
  * Created by Scorpion on 23.03.2016.
  */
 
+// TODO для классов описывающего модель обязательно переопределять hashCode и equals
 // класс персоны
 public class Member {
         private int id;         //      Id
+        // TODO лучше не сокрощать, не приветствуется на java: lastName, firstName очевиднее
         private String fname;   //      Имя
         private String lname;   //      Фамилия
         Phone phoneNumber;      //      Номер телефона (тоже объект)
         private String relative;//      Список тегов (например: друг, коллега, семья и т.д)
 
         public Member() {
+            // TODO не нужно забивать пустыми данными
             this.id = 0;
             this.fname = "No name.";
             this.lname = "No name.";

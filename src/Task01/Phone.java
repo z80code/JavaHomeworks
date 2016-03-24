@@ -6,10 +6,14 @@ package Task01;
 
 // класс телефона
 public class Phone {
+    // TODO переменные скрывать (private)
+    // TODO лучше не сокращать имена
     String num;//           Номер телефона
+    // TODO если хотите хранить тип по номеру, то нужно использовать Enum
     int type;//             Тип (например домашний, рабочий и т.д.)
 
     public Phone() {
+        // TODO не занулять
         this.num = "No set...";
         this.type = 0;
     }
@@ -50,4 +54,6 @@ public class Phone {
     public int getType() {
         return this.type;
     }
+
+    //TODO аналогично добавить equals и hashCode
 }

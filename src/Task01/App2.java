@@ -1,5 +1,8 @@
 package Task01;
 
+// TODO следует разделить программу на пакеты: предлагаю model для хранения классов описывающих объекты системы
+// bll - логика приложения
+// ui - интерфейс пользователя
 public class App2 {
     public static void main(String[] args) {
         Members memberList = new Members();
@@ -24,6 +27,7 @@ public class App2 {
             mode = menu.mainMenu(memberList.getCount());
             switch (mode) {
                 case 1: {// добавление
+                    // TODO по code convention методы на java следует называть с маленькой буквы
                     Member newMember = memberList.EnterNewMemberAttribute(0, -1, false);
                     memberList.add(newMember);
                     break;

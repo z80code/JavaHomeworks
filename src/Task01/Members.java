@@ -6,6 +6,36 @@ import java.util.Scanner;
 /**
  * Created by Scorpion on 23.03.2016.
  */
+// TODO очень сложный класс, отмечу основыные недостатки
+// 1. используется консольный вывод, тем самым привязывает класс к консоли, не позволяет повторно использовать код
+// 2. Написано в процедурном стиле,  и раздробление ответственности, т.е. этот класс занимается слишком многим
+    // и ввоидт с консоли и хранит записи и выполняет операции, нужно разделять по логике, инече это очень сложно
+    // потдерживать и исправлять
+// 3. в методах очень много не очевидных параметров, затрудняет использование  (int index, int select, boolean idSet)
+    // типичная ошибка, можно мерепутать аргументы, лучше, по возможности, использовать перечисления
+// 4. Очень размыт интерфейс класса (подробнее на занятии)
+// 5. Очень много дублирования код:
+//do {
+//        try {
+//        System.out.print(" Имя: ");
+//        Scanner scan = new Scanner(System.in);
+//        newMember.setFname(scan.next());
+//        rezult = 0;
+//        } catch (Exception e) {
+//        System.out.println(" Строка содержит недопустимые символы.");
+//        rezult = 1;
+//        }
+//        } while (rezult > 0);
+//
+//for (int i = 0; i < memberList.size(); i++) {
+//        if (memberList.get(i).phoneNumber.getType() == newMember.phoneNumber.getType()) {
+//        System.out.println(memberList.get(i).toString());
+//        forDelete[count_wr] = i;
+//        count_wr++;
+//        }
+//        }
+// подробнее об этом на занятии
+// TODO сортировку не нужно реализовывать руками (только для изучения полезно)
 class Members {
 
     private ArrayList<Member> memberList = new ArrayList();
