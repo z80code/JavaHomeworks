@@ -5,6 +5,7 @@ import Task01.bll.Message;
 import java.util.Scanner;
 
 public final class IOunit {
+
     private static Scanner scan = new Scanner(System.in);;
 
     public static int scannerInt(){
@@ -18,9 +19,9 @@ public final class IOunit {
             }
         } while (result==-1);
 
-        while (scan.hasNext()) {
-            scan.next();
-        }
+//        while (scan.hasNext()) {
+//            scan.next();
+//        }
         return result;
     }
 
