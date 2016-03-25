@@ -1,5 +1,9 @@
 package Task01;
 
+import Task01.bll.Member;
+import Task01.bll.Phone;
+import Task01.ui.Menu;
+
 // TODO следует разделить программу на пакеты: предлагаю model для хранения классов описывающих объекты системы
 // bll - логика приложения
 // ui - интерфейс пользователя
@@ -27,8 +31,7 @@ public class App2 {
             mode = menu.mainMenu(memberList.getCount());
             switch (mode) {
                 case 1: {// добавление
-                    // TODO по code convention методы на java следует называть с маленькой буквы
-                    Member newMember = memberList.EnterNewMemberAttribute(0, -1, false);
+                    Member newMember = memberList.enterNewMemberAttribute(0, -1, false);
                     memberList.add(newMember);
                     break;
                 }
@@ -43,7 +46,7 @@ public class App2 {
                     }
                     int index = menu.findMenu();
                     if (index == 0) break;
-                    Member newMember = memberList.EnterNewMemberAttribute(index, -1, true);
+                    Member newMember = memberList.enterNewMemberAttribute(index, -1, true);
                     memberList.find(newMember, index);
                     break;
                 }
@@ -54,7 +57,7 @@ public class App2 {
                     }
                     int index = menu.findMenu();
                     if (index == 0) break;
-                    Member newMember = memberList.EnterNewMemberAttribute(index, -1, true);
+                    Member newMember = memberList.enterNewMemberAttribute(index, -1, true);
                     memberList.delete(newMember, index);
                     break;
                 }
@@ -81,7 +84,7 @@ public class App2 {
                         select = menu.selectMenu();// выбор ID для смены
                         select = memberList.idExist(select);
                     } while (select < 0);
-                    memberList.EnterNewMemberAttribute(index, select, false);
+                    memberList.enterNewMemberAttribute(index, select, false);
                     break;
                 }
             }

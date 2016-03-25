@@ -1,5 +1,8 @@
 package Task01;
 
+import Task01.bll.Member;
+import Task01.bll.Phone;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -61,7 +64,7 @@ class Members {
             memberList[index].showMember();
         }
     */
-    public Member EnterNewMemberAttribute(int index, int select, boolean idSet) {
+    public Member enterNewMemberAttribute(int index, int select, boolean idSet) {
         Member newMember;
         if (select < 0) newMember = new Member();
         else newMember = this.memberList.get(select);
@@ -214,7 +217,7 @@ class Members {
                 {
                     System.out.print(" Поиск по номеру телефона.\n");
                     for (int i = 0; i < memberList.size(); i++) {
-                        if (memberList.get(i).phoneNumber.getNum().compareTo(newMember.phoneNumber.getNum()) == 0) {
+                        if (memberList.get(i).getPhoneNumber().getNum().compareTo(newMember.getPhoneNumber().getNum()) == 0) {
                             System.out.println(memberList.get(i).toString());
                             count_wr++;
                         }
@@ -224,7 +227,7 @@ class Members {
                 case 5:/// Поиск по типу номера.
                     System.out.print(" Поиск по типу номера.\n");
                     for (int i = 0; i < memberList.size(); i++) {
-                        if (memberList.get(i).phoneNumber.getType() == newMember.phoneNumber.getType()) {
+                        if (memberList.get(i).getPhoneNumber().getType() == newMember.getPhoneNumber().getType()) {
                             System.out.println(memberList.get(i).toString());
                             count_wr++;
                         }
@@ -309,7 +312,7 @@ class Members {
             case 4:/// Удаление по номеру телефона.
             {
                 for (int i = 0; i < memberList.size(); i++) {
-                    if (memberList.get(i).phoneNumber.getNum().compareTo(newMember.phoneNumber.getNum()) == 0) {
+                    if (memberList.get(i).getPhoneNumber().getNum().compareTo(newMember.getPhoneNumber().getNum()) == 0) {
                         System.out.println(memberList.get(i).toString());
                         forDelete[count_wr] = i;
                         count_wr++;
@@ -320,7 +323,7 @@ class Members {
             case 5:/// Удаление по типу телефона.
             {
                 for (int i = 0; i < memberList.size(); i++) {
-                    if (memberList.get(i).phoneNumber.getType() == newMember.phoneNumber.getType()) {
+                    if (memberList.get(i).getPhoneNumber().getType() == newMember.getPhoneNumber().getType()) {
                         System.out.println(memberList.get(i).toString());
                         forDelete[count_wr] = i;
                         count_wr++;
@@ -395,13 +398,13 @@ class Members {
                             break;
                     }
                     if (index == 4) {
-                        if (t.phoneNumber.getNum().compareTo(memberList.get(j - k).phoneNumber.getNum()) < 0) {
+                        if (t.getPhoneNumber().getNum().compareTo(memberList.get(j - k).getPhoneNumber().getNum()) < 0) {
                             memberList.set(j, memberList.get(j - k));
                         } else
                             break;
                     }
                     if (index == 5) {
-                        if (t.phoneNumber.getType() < memberList.get(j - k).phoneNumber.getType()) {
+                        if (t.getPhoneNumber().getType() < memberList.get(j - k).getPhoneNumber().getType()) {
 
                             memberList.set(j, memberList.get(j - k));
                         } else

@@ -1,4 +1,4 @@
-package Task01;
+package Task01.bll;
 
 /**
  * Created by Scorpion on 23.03.2016.
@@ -8,14 +8,14 @@ package Task01;
 public class Phone {
     // TODO переменные скрывать (private)
     // TODO лучше не сокращать имена
-    String num;//           Номер телефона
+    private String num;//           Номер телефона
     // TODO если хотите хранить тип по номеру, то нужно использовать Enum
-    int type;//             Тип (например домашний, рабочий и т.д.)
+    private int type;//             Тип (например домашний, рабочий и т.д.)
 
     public Phone() {
         // TODO не занулять
-        this.num = "No set...";
-        this.type = 0;
+//        this.num = "No set...";
+//        this.type = 0;
     }
 
     public Phone(String num_phone, int type) {
@@ -55,5 +55,14 @@ public class Phone {
         return this.type;
     }
 
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
     //TODO аналогично добавить equals и hashCode
 }

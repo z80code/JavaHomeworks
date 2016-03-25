@@ -1,4 +1,6 @@
-package Task01;
+package Task01.bll;
+
+import Task01.bll.Phone;
 
 /**
  * Created by Scorpion on 23.03.2016.
@@ -9,23 +11,23 @@ package Task01;
 public class Member {
         private int id;         //      Id
         // TODO лучше не сокрощать, не приветствуется на java: lastName, firstName очевиднее
-        private String fname;   //      Имя
-        private String lname;   //      Фамилия
+        private String firstname;   //      Имя
+        private String lastname;   //      Фамилия
         Phone phoneNumber;      //      Номер телефона (тоже объект)
         private String relative;//      Список тегов (например: друг, коллега, семья и т.д)
 
         public Member() {
             // TODO не нужно забивать пустыми данными
-            this.id = 0;
-            this.fname = "No name.";
-            this.lname = "No name.";
-            this.phoneNumber = new Phone();
-            this.relative = "Not set.";
+//            this.id = 0;
+//            this.firstname = "No name.";
+//            this.lastname = "No name.";
+//            this.phoneNumber = new Phone();
+//            this.relative = "Not set.";
         }
 
         public Member(String fname, String lname, Phone phoneNumber, String relative) {
-            this.fname = fname;
-            this.lname = lname;
+            this.firstname = fname;
+            this.lastname = lname;
             this.phoneNumber = phoneNumber;
             this.relative = relative;
         }
@@ -35,11 +37,11 @@ public class Member {
         }
 
         public void setFname(String fname) {
-            this.fname = fname;
+            this.firstname = fname;
         }
 
         public void setLname(String lname) {
-            this.lname = lname;
+            this.lastname = lname;
         }
 
         public void setPhoneNumber(Phone phoneNumber) {
@@ -55,11 +57,11 @@ public class Member {
         }
 
         public String getFname() {
-            return fname;
+            return firstname;
         }
 
         public String getLname() {
-            return lname;
+            return lastname;
         }
 
         public Phone getPhoneNumber() {
@@ -70,13 +72,24 @@ public class Member {
             return relative;
         }
 
+        @Override
+        public int hashCode() {
+            return super.hashCode();
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            return super.equals(obj);
+        }
+
+
         public String toString() {
-            int n = 28 - this.fname.length() - this.lname.length();
+            int n = 28 - this.firstname.length() - this.lastname.length();
             String space = "";
             while (n-- != 0) {
                 space = space.concat(" ");
             }
-            return String.format("%2d %s %s %s %s %s", this.id, this.fname, this.lname, space, this.phoneNumber.getPhone(), this.relative);
+            return String.format("%2d %s %s %s %s %s", this.id, this.firstname, this.lastname, space, this.phoneNumber.getPhone(), this.relative);
         }
 
 }
