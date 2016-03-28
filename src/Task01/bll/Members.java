@@ -1,7 +1,7 @@
-package Task01;
+package Task01.bll;
 
-import Task01.bll.Member;
-import Task01.bll.Phone;
+import Task01.model.Member;
+import Task01.model.Phone;
 
 import java.util.ArrayList;
 import java.util.Scanner;

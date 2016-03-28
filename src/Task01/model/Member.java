@@ -1,6 +1,4 @@
-package Task01.bll;
-
-import Task01.bll.Phone;
+package Task01.model;
 
 /**
  * Created by Scorpion on 23.03.2016.

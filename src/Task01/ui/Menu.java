@@ -1,52 +1,54 @@
 package Task01.ui;
 
-import java.util.Scanner;
-
 /*
  * Вывод сообщений меню в консоль
  */
 public class Menu {
-    private static String selectDoing = " Выберите действие (0 - Выход) -> ";
-    private static String notCorrect = " %d - Нет такого действия!\n";
-    private static String mainMenuText = "\n 1. Добавить запись.\n " +
-                                            "2. Вывести записи.\n " +
-                                            "3. Поиск по атрибуту.\n " +
-                                            "4. Удаление по атрибуту.\n " +
-                                            "5. Сортировать по атрибуту.\n " +
-                                            "6. Править атрибут записи.\n";
+    private static String[] mainMenuText = new String[]{
+            "1. Добавить запись.",
+            "2. Вывести записи.",
+            "3. Поиск по атрибуту.",
+            "4. Удаление по атрибуту.",
+            "5. Сортировать по атрибуту.",
+            "6. Править атрибут записи."
+    };
 
-    private static String findMenuText = "\n 1. Номеру ID.\n " +
-                                            "2. Имени.\n " +
-                                            "3. Фамилии.\n " +
-                                            "4. Номеру телефона.\n " +
-                                            "5. Типу телефона.\n " +
-                                            "6. Отношению к Вам.\n";
+    private static String[] findMenuText =  new String[]{"1. Номеру ID.\n" +
+            "2. Имени.",
+            "3. Фамилии.",
+            "4. Номеру телефона.",
+            "5. Типу телефона.",
+            "6. Отношению к Вам."
+    };
+
+    private static final int findMenuTextCount = 6;
+
 
     private int choose() {
-        int rezult = -1;
-        try {
-            System.out.print(selectDoing);
-
-            Scanner scan = new Scanner(System.in);
-            rezult = scan.nextInt();
-        } catch (Exception e) {
-            System.out.println(" Это целочисленное значение!");
-        }
-        return rezult;
+        return IOunit.scannerInt();
     }
+    private void printMenu(String[] MenuText){
+        for (int i=0;i<MenuText.length;i++){
+            IOunit.show(MenuText[i]);
+        }
+    }
+
+
+
 
     public int mainMenu(int baseSize) {
         int mode0;
-        System.out.format("В базе записей - %d\n", baseSize);
-        System.out.print(mainMenuText);
+        IOunit.show(String.format("В базе записей - %d\n", baseSize));
+        printMenu(mainMenuText);
         do {
-            mode0 = choose();
+            IOunit.show(Message.chooseMessage);
+            mode0 = IOunit.scannerInt();
             // TODO magic numbers лучше избегать, все числовые значения, по числу не совсем очевидно что значит 6, лучше
             // заводить константы
-            if (mode0 < 0 && mode0 > 6) {
-                System.out.format(notCorrect, mode0);
+            if (mode0 < 0 && mode0 > mainMenuText.length) {
+                IOunit.show(String.format(Message.notCorrect, mode0));
             }
-        } while (mode0 < 0 && mode0 > 6);
+        } while (mode0 < 0 && mode0 > mainMenuText.length);
         return mode0;
     }
 
@@ -57,7 +59,7 @@ public class Menu {
         do {
             mode0 = choose();
             if (mode0 < 0 && mode0 > 6) {
-                System.out.format(notCorrect);
+                System.out.format(Message.notCorrect);
             }
         } while (mode0 < 0 && mode0 > 6);
         return mode0;

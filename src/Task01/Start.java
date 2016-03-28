@@ -1,37 +1,41 @@
 package Task01;
 
-import Task01.bll.Member;
-import Task01.bll.Phone;
+import Task01.bll.InMemory;
+import Task01.model.Member;
+import Task01.model.Phone;
 import Task01.ui.Menu;
 
-// TODO следует разделить программу на пакеты: предлагаю model для хранения классов описывающих объекты системы
-// bll - логика приложения
-// ui - интерфейс пользователя
-public class App2 {
+public class Start {
     public static void main(String[] args) {
-        Members memberList = new Members();
+        InMemory Members = new InMemory();
 
         //закоментируйте, чтобы создать пустую базу
         // начало блока автоввода
         Member Number = new Member("Иван", "Иванов", new Phone("697-45-87", 1), "друг");
-        memberList.add(Number);
+        Members.add(Number);
         Member Number1 = new Member("Сергей", "Петров", new Phone("622-02-13", 2), "знакомый");
-        memberList.add(Number1);
+        Members.add(Number1);
         Member Number2 = new Member("Петр", "Сидоров", new Phone("648-56-23", 3), "враг");
-        memberList.add(Number2);
+        Members.add(Number2);
         Member Number3 = new Member("Ольга", "Ященко", new Phone("613-82-12", 4), "коллега");
-        memberList.add(Number3);
+        Members.add(Number3);
         Member Number4 = new Member("Зина", "Петрова", new Phone("652-34-14", 2), "враг");
-        memberList.add(Number4);
+        Members.add(Number4);
         // конец блока автоввода
 
         int mode;
         Menu menu = new Menu();
+        String[] List = Members.toStringAll();
+
+        for (int i=0;i<List.length;i++){
+            System.out.println(List[i]);
+        }
+
         do {
-            mode = menu.mainMenu(memberList.getCount());
+            mode = menu.mainMenu(Members.count());
             switch (mode) {
                 case 1: {// добавление
-                    Member newMember = memberList.enterNewMemberAttribute(0, -1, false);
+                    Member newMember = Members.enterNewMemberAttribute(0, -1, false);
                     memberList.add(newMember);
                     break;
                 }
