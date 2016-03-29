@@ -4,10 +4,9 @@ import Task01.bll.InMemory;
 import Task01.model.Member;
 import Task01.model.Phone;
 import Task01.ui.Enter;
-import Task01.ui.IOconsole;
+import Task01.ui.IO;
 import Task01.ui.Menu;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Start {
@@ -38,10 +37,7 @@ public class Start {
                     break;
                 }
                 case 2: {// вывод всего
-                    List<String> list = Members.toStringAll();
-                    for (String line: list) {
-                        IOconsole.show(line);
-                    }
+                    IO.showList(Members.getAll());
                     break;
                 }
                 case 3: {// поиск
@@ -55,7 +51,7 @@ public class Start {
 
                     Object object = Enter.getValue(index);
                     List<Member> listM = Members.find(index, object);
-                    IOconsole.showList(listM);
+                    IO.showList(listM);
                     break;
                 }
                 case 4: {// удаление
@@ -69,7 +65,7 @@ public class Start {
                     Object object = Enter.getValue(index);
                     List<Member> listForDelete = Members.find(index, object);
                     if (listForDelete.size() > 0) {
-                        IOconsole.showList(listForDelete);
+                        IO.showList(listForDelete);
                         if (Enter.chose())/// если ДА - Удаляем
                         {
                             Members.delete(listForDelete);
@@ -80,32 +76,37 @@ public class Start {
                     }
                     break;
                 }
-//                case 5: {// сортировка
-//                    if (memberList.getCount() <= 0) {
-//                        System.out.println(" В пустой базе нечего сортировать.\n");
-//                        break;
-//                    }
-//                    int index = menu.sortMenu();
-//                    if (index == 0) break;
-//                    memberList.sort(index);
-//                    break;
-//                }
-//                case 6: {// изменение
-//                    if (memberList.getCount() <= 0) {
-//                        System.out.println(" В пустой базе нечего изменять.\n");
-//                        break;
-//                    }
-//                    int index = menu.changeMenu();// выбор атрибута для смены
-//                    if (index == 0) break;
-//                    memberList.showAll();
-//                    int select;
-//                    do {
-//                        select = menu.selectMenu();// выбор ID для смены
-//                        select = memberList.idExist(select);
-//                    } while (select < 0);
-//                    memberList.enterNewMemberAttribute(index, select, false);
-//                    break;
-//                }
+                case 5: {// сортировка
+                    if (Members.count() <= 0) {
+                        System.out.println(" В пустой базе нечего сортировать.\n");
+                        break;
+                    }
+                    int index = Menu.sortMenu();
+                    if (index == 0) break;
+                    Members.sort(index);
+                    break;
+                }
+                case 6: {// изменение
+                    if (Members.count() <= 0) {
+                        System.out.println(" В пустой базе нечего изменять.\n");
+                        break;
+                    }
+                    int index = Menu.changeMenu();// выбор атрибута для смены
+                    if (index == 0) break;
+                    IO.showList(Members.getAll());
+
+                    int selectId, selectIndex;
+                    Member member;
+                    do {
+                        IO.show("Укажите существующий ID из списка");
+                        selectId = IO.scannerInt();// выбор ID для смены
+                        member =  Members.getById(selectId);
+                    } while (member == null);
+
+                    Member newMember =  Enter.changeMember(selectId, member, index);
+                    Members.change(selectId, newMember);
+                    break;
+                }
             }
         } while (mode != 0);
     }

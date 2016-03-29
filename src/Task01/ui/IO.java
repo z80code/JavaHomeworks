@@ -7,7 +7,7 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-public final class IOconsole {
+public final class IO {
 
     private static Scanner scan = new Scanner(System.in);;
 

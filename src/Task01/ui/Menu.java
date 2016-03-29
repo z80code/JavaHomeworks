@@ -25,11 +25,11 @@ public final class Menu {
 
 
     private static int choose() {
-        return IOconsole.scannerInt();
+        return IO.scannerInt();
     }
     private static void printMenu(String[] MenuText){
         for (int i=0;i<MenuText.length;i++){
-            IOconsole.show(MenuText[i]);
+            IO.show(MenuText[i]);
         }
     }
 
@@ -38,15 +38,15 @@ public final class Menu {
 
     public static int mainMenu(int baseSize) {
         int mode0;
-        IOconsole.show(String.format("В базе записей - %d\n", baseSize));
+        IO.show(String.format("В базе записей - %d\n", baseSize));
         printMenu(mainMenuText);
         do {
-            IOconsole.show(Message.chooseMessage);
-            mode0 = IOconsole.scannerInt();
+            IO.show(Message.chooseMessage);
+            mode0 = IO.scannerInt();
             // TODO magic numbers лучше избегать, все числовые значения, по числу не совсем очевидно что значит 6, лучше
             // заводить константы
             if (mode0 < 0 && mode0 > mainMenuText.length) {
-                IOconsole.show(String.format(Message.notCorrect, mode0));
+                IO.show(String.format(Message.notCorrect, mode0));
             }
         } while (mode0 < 0 && mode0 > mainMenuText.length);
         return mode0;

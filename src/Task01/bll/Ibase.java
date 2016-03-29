@@ -10,12 +10,20 @@ import java.util.Scanner;
 
      int getSelector();
 
+     Member getById(int id);
 
      /*
      *   поиск по атрибуту (указывается индексом)
      *   заданному в поле ""
      */
      int count();
+
+     /*
+     *   Получает весь список
+     */
+     List<Member> getAll();
+
+
 
      /*
      *   поиск по атрибуту (указывается индексом)
@@ -28,6 +36,12 @@ import java.util.Scanner;
      *   заданной в поле "newMember"
      */
      boolean add(Member member);
+
+     /*
+     *   Изменение персоны
+     *   заданной в поле "newMember"
+     */
+     boolean change(int id, Member member);
 
     /*
     *   Удаление персоны по атрибуту (указывается индексом),
@@ -44,7 +58,7 @@ import java.util.Scanner;
      /*
     *   Запись в строку
     */
-     String toString(Member member);
+     String toString(int index);
      /*
      *   Все в массив строк
      */

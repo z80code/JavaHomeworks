@@ -151,7 +151,6 @@ public abstract class abstractBase implements Ibase
         for (int i = 0; i < listForDelete.size(); i++) {
             forDelete[i] = listForDelete.get(i).getId();
         }
-
         for (int i = listForDelete.size()-1; i >= 0; i--) {
             members.remove(forDelete[i]);
         }
