@@ -127,7 +127,7 @@ public abstract class abstractBase implements Ibase
         List<Member> members = read();
         members.add(member);
         save(members);
-        return false;
+        return true;
     }
 
     @Override

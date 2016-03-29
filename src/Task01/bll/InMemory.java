@@ -11,7 +11,7 @@ public class InMemory extends abstractBase
     private List<Member> members = new ArrayList<>();
 
     public InMemory(){
-    };
+    }
 
     @Override
     protected List<Member> read() {

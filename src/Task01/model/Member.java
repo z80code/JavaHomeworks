@@ -2,11 +2,11 @@ package Task01.model;
 
 // класс персоны
 public class Member {
-        private int id;         //      Id
+        private int id;             //      Id
         private String firstname;   //      Имя
-        private String lastname;   //      Фамилия
-        Phone phone = new Phone();      //      Номер телефона (тоже объект)
-        private String relative;//      Список тегов (например: друг, коллега, семья и т.д)
+        private String lastname;    //      Фамилия
+        Phone phone = new Phone();  //      Номер телефона (тоже объект)
+        private String relative;    //      Список тегов (например: друг, коллега, семья и т.д)
 
         public Member(String fname, String lname, Phone phone, String relative) {
             this.firstname = fname;
