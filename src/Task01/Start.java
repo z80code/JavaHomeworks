@@ -3,7 +3,11 @@ package Task01;
 import Task01.bll.InMemory;
 import Task01.model.Member;
 import Task01.model.Phone;
+import Task01.ui.Enter;
+import Task01.ui.IOconsole;
 import Task01.ui.Menu;
+
+import java.util.List;
 
 public class Start {
     public static void main(String[] args) {
@@ -25,72 +29,68 @@ public class Start {
 
         int mode;
         Menu menu = new Menu();
-        String[] List = Members.toStringAll();
-
-        for (int i=0;i<List.length;i++){
-            System.out.println(List[i]);
-        }
-
         do {
             mode = menu.mainMenu(Members.count());
             switch (mode) {
                 case 1: {// добавление
-                    Member newMember = Members.enterNewMemberAttribute(0, -1, false);
-                    memberList.add(newMember);
+                    Members.add(Enter.Member(Members.getSelector()));
                     break;
                 }
                 case 2: {// вывод всего
-                    memberList.showAll();
-                    break;
-                }
-                case 3: {// поиск
-                    if (memberList.getCount() <= 0) {
-                        System.out.println(" В пустой базе нечего искать.\n");
-                        break;
+                    List<String> list = Members.toStringAll();
+                    for (String line: list) {
+                        IOconsole.show(line);
                     }
-                    int index = menu.findMenu();
-                    if (index == 0) break;
-                    Member newMember = memberList.enterNewMemberAttribute(index, -1, true);
-                    memberList.find(newMember, index);
                     break;
                 }
-                case 4: {// удаление
-                    if (memberList.getCount() <= 0) {
-                        System.out.println(" В пустой базе нечего удалять.\n");
-                        break;
-                    }
-                    int index = menu.findMenu();
-                    if (index == 0) break;
-                    Member newMember = memberList.enterNewMemberAttribute(index, -1, true);
-                    memberList.delete(newMember, index);
-                    break;
-                }
-                case 5: {// сортировка
-                    if (memberList.getCount() <= 0) {
-                        System.out.println(" В пустой базе нечего сортировать.\n");
-                        break;
-                    }
-                    int index = menu.sortMenu();
-                    if (index == 0) break;
-                    memberList.sort(index);
-                    break;
-                }
-                case 6: {// изменение
-                    if (memberList.getCount() <= 0) {
-                        System.out.println(" В пустой базе нечего изменять.\n");
-                        break;
-                    }
-                    int index = menu.changeMenu();// выбор атрибута для смены
-                    if (index == 0) break;
-                    memberList.showAll();
-                    int select;
-                    do {
-                        select = menu.selectMenu();// выбор ID для смены
-                        select = memberList.idExist(select);
-                    } while (select < 0);
-                    memberList.enterNewMemberAttribute(index, select, false);
-                    break;
-                }
+//                case 3: {// поиск
+//                    if (memberList.getCount() <= 0) {
+//                        System.out.println(" В пустой базе нечего искать.\n");
+//                        break;
+//                    }
+//                    int index = menu.findMenu();
+//                    if (index == 0) break;
+//                    Member newMember = memberList.enterNewMemberAttribute(index, -1, true);
+//                    memberList.find(newMember, index);
+//                    break;
+//                }
+//                case 4: {// удаление
+//                    if (memberList.getCount() <= 0) {
+//                        System.out.println(" В пустой базе нечего удалять.\n");
+//                        break;
+//                    }
+//                    int index = menu.findMenu();
+//                    if (index == 0) break;
+//                    Member newMember = memberList.enterNewMemberAttribute(index, -1, true);
+//                    memberList.delete(newMember, index);
+//                    break;
+//                }
+//                case 5: {// сортировка
+//                    if (memberList.getCount() <= 0) {
+//                        System.out.println(" В пустой базе нечего сортировать.\n");
+//                        break;
+//                    }
+//                    int index = menu.sortMenu();
+//                    if (index == 0) break;
+//                    memberList.sort(index);
+//                    break;
+//                }
+//                case 6: {// изменение
+//                    if (memberList.getCount() <= 0) {
+//                        System.out.println(" В пустой базе нечего изменять.\n");
+//                        break;
+//                    }
+//                    int index = menu.changeMenu();// выбор атрибута для смены
+//                    if (index == 0) break;
+//                    memberList.showAll();
+//                    int select;
+//                    do {
+//                        select = menu.selectMenu();// выбор ID для смены
+//                        select = memberList.idExist(select);
+//                    } while (select < 0);
+//                    memberList.enterNewMemberAttribute(index, select, false);
+//                    break;
+//                }
             }
         } while (mode != 0);
     }
