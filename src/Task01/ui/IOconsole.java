@@ -3,7 +3,9 @@ package Task01.ui;
 import Task01.model.Member;
 import Task01.model.Phone;
 
-import java.util.Scanner;
+import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 public final class IOconsole {
 
@@ -39,11 +41,17 @@ public final class IOconsole {
         return result;
     }
 
-
     public static void show(String text){
         System.out.println(text);
     }
     public static void show(int text){
         System.out.println(text);
+    }
+
+    public static void showList(List<Member> list){
+        for (Member member: list) {
+            System.out.println(member.toString());
+        }
+        System.out.format("Найдено: %d", list.size());
     }
 }

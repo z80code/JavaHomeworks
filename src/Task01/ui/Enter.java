@@ -3,6 +3,8 @@ package Task01.ui;
 import Task01.model.Member;
 import Task01.model.Phone;
 
+import java.util.List;
+
 public final class Enter {
 
     public static Member Member(int id) {
@@ -46,7 +48,6 @@ public final class Enter {
             IOconsole.show("Старое значение ID: ");
             IOconsole.show(member.getId());
             member.setId(id);
-
         }
         //
         if (index == 2){
@@ -54,7 +55,6 @@ public final class Enter {
             IOconsole.show(member.getFname());
             member.setFname(IOconsole.scannerStr());
         }
-
         //
         if (index == 3) {
             IOconsole.show("Старое значение Фамилию: ");
@@ -88,4 +88,23 @@ public final class Enter {
         return member;
     }
 
+    public static Object getValue(int index){
+        Object object;
+        if (index == 1 ||index == 5){
+            System.out.println(" Введите значение: ");
+            int number = IOconsole.scannerInt();
+            object = number;
+        }
+        else {
+            System.out.println(" Введите строку: ");
+            String number = IOconsole.scannerStr();
+            object = number;
+        }
+        return object;
+    }
+    public static void showList(List<Member> list) {
+        for (Member member : list) {
+            IOconsole.show(member.toString());
+        }
+    }
 }

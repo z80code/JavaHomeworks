@@ -6,17 +6,12 @@ package Task01.model;
 
 // класс телефона
 public class Phone {
-    // TODO переменные скрывать (private)
-    // TODO лучше не сокращать имена
+
     private String num;//           Номер телефона
     // TODO если хотите хранить тип по номеру, то нужно использовать Enum
     private int type;//             Тип (например домашний, рабочий и т.д.)
 
-    public Phone() {
-        // TODO не занулять
-//        this.num = "No set...";
-//        this.type = 0;
-    }
+    public Phone() {};
 
     public Phone(String num_phone, int type) {
         this.num = num_phone;

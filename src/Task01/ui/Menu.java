@@ -54,8 +54,8 @@ public class Menu {
 
     public int findMenu() {
         int mode0;
-        System.out.print("\n Поиск по атрибуту.\n");
-        System.out.print("\n 1. Номеру ID.\n 2. Имени.\n 3. Фамилии.\n 4. Номеру телефона.\n 5. Типу телефона.\n 6. Отношению к Вам.\n");
+        System.out.print(" Поиск по атрибуту.\n");
+        System.out.print(" 1. Номеру ID.\n 2. Имени.\n 3. Фамилии.\n 4. Номеру телефона.\n 5. Типу телефона.\n 6. Отношению к Вам.\n");
         do {
             mode0 = choose();
             if (mode0 < 0 && mode0 > 6) {

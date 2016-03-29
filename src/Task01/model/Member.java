@@ -5,7 +5,7 @@ public class Member {
         private int id;         //      Id
         private String firstname;   //      Имя
         private String lastname;   //      Фамилия
-        Phone phone;      //      Номер телефона (тоже объект)
+        Phone phone = new Phone();      //      Номер телефона (тоже объект)
         private String relative;//      Список тегов (например: друг, коллега, семья и т.д)
 
         public Member(String fname, String lname, Phone phone, String relative) {
@@ -14,6 +14,7 @@ public class Member {
             this.phone = phone;
             this.relative = relative;
         }
+
         public Member(String fname, String lname, String phoneNumber, int phoneType, String relative) {
             this.firstname = fname;
             this.lastname = lname;
@@ -21,6 +22,21 @@ public class Member {
             this.relative = relative;
         }
 
+        public Member(int id, String fname, String lname, Phone phone, String relative) {
+            this.id = id;
+            this.firstname = fname;
+            this.lastname = lname;
+            this.phone = phone;
+            this.relative = relative;
+        }
+
+        public Member(int id, String fname, String lname, String phoneNumber, int phoneType, String relative) {
+            this.id = id;
+            this.firstname = fname;
+            this.lastname = lname;
+            this.phone = new Phone(phoneNumber, phoneType);
+            this.relative = relative;
+        }
         public Member(){};
 
         public void setId(int id) {
