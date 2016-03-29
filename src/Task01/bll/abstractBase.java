@@ -16,10 +16,20 @@ public abstract class abstractBase implements Ibase
         return members.size();
     }
 
+    @Override
+    public int getSelector() {
+        List<Member> members = read();
+            int max = -1;
+            for (int i = 0; i < members.size(); i++) {
+                max = (members.get(i).getId() > max) ? members.get(i).getId() : max;
+            }
+            return max + 1;
+    }
+
     /*  Поиск в базе по значению поля
-         *  index - номер поля в записи. Начиная с "1".
-         *  value - упакованное значение
-         */
+             *  index - номер поля в записи. Начиная с "1".
+             *  value - упакованное значение
+             */
     @Override
     public List<Member> find(int index, Object value) {
         List<Member> members = read();
@@ -64,7 +74,7 @@ public abstract class abstractBase implements Ibase
                 {
                     String phone = (String)value;
                     for (int i = 0; i < members.size(); i++) {
-                        if (members.get(i).getPhoneNumber().getNum().compareTo(phone) == 0) {
+                        if (members.get(i).getPhoneNumber().compareTo(phone) == 0) {
                             result.add(members.get(i));
                             count_wr++;
                         }
@@ -74,7 +84,7 @@ public abstract class abstractBase implements Ibase
                 case 5:/// Поиск по типу номера.
                     int type=(int)value;
                     for (int i = 0; i < members.size(); i++) {
-                        if (members.get(i).getPhoneNumber().getType() == type) {
+                        if (members.get(i).getPhoneType() == type) {
                             System.out.println(members.get(i).toString());
                             count_wr++;
                         }
@@ -125,8 +135,13 @@ public abstract class abstractBase implements Ibase
     }
 
     @Override
-    public String[] toStringAll() {
+    public List<String> toStringAll() {
         List<Member> members = read();
-        return new String[0];
+        List<String> list = new ArrayList<>();
+        for (Member member:members) {
+
+            list.add(member.toString());
+        }
+        return list;
     }
 }

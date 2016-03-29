@@ -56,13 +56,21 @@ public class Phone {
     }
 
     @Override
-    public int hashCode() {
-        return super.hashCode();
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Phone phone = (Phone) o;
+
+        if (type != phone.type) return false;
+        return num.equals(phone.num);
+
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public int hashCode() {
+        int result = num.hashCode();
+        result = 31 * result + type;
+        return result;
     }
-    //TODO аналогично добавить equals и hashCode
 }

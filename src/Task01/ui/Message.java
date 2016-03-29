@@ -6,5 +6,5 @@ package Task01.ui;
 public class Message {
     public static String NotNumber= "Не числовое значение!";
     public static String notCorrect = "Нет такого действия!";
-    public static String chooseMessage = "Сделайте вой выбор(0 -> Выход): ";
+    public static String chooseMessage = "Сделайте свой выбор(0 -> Выход): ";
 }

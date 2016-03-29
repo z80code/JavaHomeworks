@@ -5,7 +5,7 @@ import Task01.model.Phone;
 
 import java.util.Scanner;
 
-public final class IOunit {
+public final class IOconsole {
 
     private static Scanner scan = new Scanner(System.in);;
 
@@ -26,8 +26,24 @@ public final class IOunit {
         return result;
     }
 
+    public static String scannerStr(){
+        String result="";
+        do{
+            if (scan.hasNext()){
+                result = scan.next();
+            }
+            else{
+                show(Message.NotNumber);
+            }
+        } while (result=="");
+        return result;
+    }
+
+
     public static void show(String text){
         System.out.println(text);
     }
-
+    public static void show(int text){
+        System.out.println(text);
+    }
 }

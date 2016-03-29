@@ -1,34 +1,27 @@
 package Task01.model;
 
-/**
- * Created by Scorpion on 23.03.2016.
- */
-
-// TODO для классов описывающего модель обязательно переопределять hashCode и equals
 // класс персоны
 public class Member {
         private int id;         //      Id
-        // TODO лучше не сокрощать, не приветствуется на java: lastName, firstName очевиднее
         private String firstname;   //      Имя
         private String lastname;   //      Фамилия
-        Phone phoneNumber;      //      Номер телефона (тоже объект)
+        Phone phone;      //      Номер телефона (тоже объект)
         private String relative;//      Список тегов (например: друг, коллега, семья и т.д)
 
-        public Member() {
-            // TODO не нужно забивать пустыми данными
-//            this.id = 0;
-//            this.firstname = "No name.";
-//            this.lastname = "No name.";
-//            this.phoneNumber = new Phone();
-//            this.relative = "Not set.";
-        }
-
-        public Member(String fname, String lname, Phone phoneNumber, String relative) {
+        public Member(String fname, String lname, Phone phone, String relative) {
             this.firstname = fname;
             this.lastname = lname;
-            this.phoneNumber = phoneNumber;
+            this.phone = phone;
             this.relative = relative;
         }
+        public Member(String fname, String lname, String phoneNumber, int phoneType, String relative) {
+            this.firstname = fname;
+            this.lastname = lname;
+            this.phone = new Phone(phoneNumber, phoneType);
+            this.relative = relative;
+        }
+
+        public Member(){};
 
         public void setId(int id) {
             this.id = id;
@@ -42,12 +35,20 @@ public class Member {
             this.lastname = lname;
         }
 
-        public void setPhoneNumber(Phone phoneNumber) {
-            this.phoneNumber = phoneNumber;
+        public void setPhone(Phone phone) {
+            this.phone = phone;
+        }
+        public void setPhoneNumber(String phoneNumber) {
+
+            this.phone.setNum(phoneNumber);
+        }
+        public void setPhoneType(int type) {
+
+            this.phone.setType(type);
         }
 
         public void setRelative(String relative) {
-            this.relative = relative;
+                this.relative = relative;
         }
 
         public int getId() {
@@ -62,32 +63,55 @@ public class Member {
             return lastname;
         }
 
-        public Phone getPhoneNumber() {
-            return phoneNumber;
+        public Phone getPhone() {
+            return phone;
+        }
+
+        public String getPhoneNumber() {
+
+            return this.phone.getNum();
+        }
+        public int getPhoneType() {
+
+            return this.phone.getType();
         }
 
         public String getRelative() {
             return relative;
         }
 
-        @Override
-        public int hashCode() {
-            return super.hashCode();
-        }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-        @Override
-        public boolean equals(Object obj) {
-            return super.equals(obj);
-        }
+        Member member = (Member) o;
 
+        if (id != member.id) return false;
+        if (!firstname.equals(member.firstname)) return false;
+        if (!lastname.equals(member.lastname)) return false;
+        if (!phone.equals(member.phone)) return false;
+        return relative.equals(member.relative);
 
-        public String toString() {
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + firstname.hashCode();
+        result = 31 * result + lastname.hashCode();
+        result = 31 * result + phone.hashCode();
+        result = 31 * result + relative.hashCode();
+        return result;
+    }
+
+    public String toString() {
             int n = 28 - this.firstname.length() - this.lastname.length();
             String space = "";
             while (n-- != 0) {
                 space = space.concat(" ");
             }
-            return String.format("%2d %s %s %s %s %s", this.id, this.firstname, this.lastname, space, this.phoneNumber.getPhone(), this.relative);
+            return String.format("%2d %s %s %s %s %s", this.id, this.firstname, this.lastname, space, this.phone.getPhone(), this.relative);
         }
 
 }

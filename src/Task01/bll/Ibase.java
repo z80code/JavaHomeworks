@@ -8,6 +8,9 @@ import java.util.Scanner;
 
  public interface Ibase {
 
+     int getSelector();
+
+
      /*
      *   поиск по атрибуту (указывается индексом)
      *   заданному в поле ""
@@ -45,6 +48,6 @@ import java.util.Scanner;
      /*
      *   Все в массив строк
      */
-     String[] toStringAll();
+     List<String> toStringAll();
 
  }
