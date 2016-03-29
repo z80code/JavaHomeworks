@@ -3,7 +3,7 @@ package Task01.ui;
 /*
  * Вывод сообщений меню в консоль
  */
-public class Menu {
+public final class Menu {
     private static String[] mainMenuText = new String[]{
             "1. Добавить запись.",
             "2. Вывести записи.",
@@ -24,10 +24,10 @@ public class Menu {
     private static final int findMenuTextCount = 6;
 
 
-    private int choose() {
+    private static int choose() {
         return IOconsole.scannerInt();
     }
-    private void printMenu(String[] MenuText){
+    private static void printMenu(String[] MenuText){
         for (int i=0;i<MenuText.length;i++){
             IOconsole.show(MenuText[i]);
         }
@@ -36,7 +36,7 @@ public class Menu {
 
 
 
-    public int mainMenu(int baseSize) {
+    public static int mainMenu(int baseSize) {
         int mode0;
         IOconsole.show(String.format("В базе записей - %d\n", baseSize));
         printMenu(mainMenuText);
@@ -52,7 +52,7 @@ public class Menu {
         return mode0;
     }
 
-    public int findMenu() {
+    public static int findMenu() {
         int mode0;
         System.out.print(" Поиск по атрибуту.\n");
         System.out.print(" 1. Номеру ID.\n 2. Имени.\n 3. Фамилии.\n 4. Номеру телефона.\n 5. Типу телефона.\n 6. Отношению к Вам.\n");
@@ -65,7 +65,7 @@ public class Menu {
         return mode0;
     }
 
-    public int sortMenu() {
+    public static int sortMenu() {
         int mode0;
         System.out.print("\n Сортировка по атрибуту.\n");
         // TODO нижняя строка несколько раз дубируется, значит следует вынести в одну переменную, дублирование часто
@@ -83,7 +83,7 @@ public class Menu {
 
     // TODO методы имеют очень похожую структуру, возможно имеет смысл написать один универсальный метод
 
-    public int changeMenu() {
+    public static int changeMenu() {
         int mode0;
         System.out.print("\n Изменить атрибут.\n");
         System.out.print("\n 1. Номер ID.\n 2. Имя.\n 3. Фамилию.\n 4. Номер телефона.\n 5. Тип телефона.\n 6. Отношениe к Вам.\n");
@@ -96,7 +96,7 @@ public class Menu {
         return mode0;
     }
 
-    public int selectMenu() {
+    public static int selectMenu() {
         int mode0;
         System.out.print("\n Выберите запись указав ID.\n");
         do {

@@ -34,7 +34,7 @@ import java.util.Scanner;
     *   заданному в поле "newMember"
     */
 
-     boolean delete(int index, List<Member> listForDelete);
+     void delete(List<Member> listForDelete);
 
      /*
      *   Сортировка базы по атрибуту (указывается индексом)

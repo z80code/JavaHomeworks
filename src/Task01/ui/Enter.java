@@ -44,13 +44,13 @@ public final class Enter {
         Phone phone = new Phone();
         //
         IOconsole.show(" Измените следующие данные:");
-        if (index == 1){
+        if (index == 1) {
             IOconsole.show("Старое значение ID: ");
             IOconsole.show(member.getId());
             member.setId(id);
         }
         //
-        if (index == 2){
+        if (index == 2) {
             IOconsole.show("Старое значение Имя: ");
             IOconsole.show(member.getFname());
             member.setFname(IOconsole.scannerStr());
@@ -88,23 +88,31 @@ public final class Enter {
         return member;
     }
 
-    public static Object getValue(int index){
+    public static Object getValue(int index) {
         Object object;
-        if (index == 1 ||index == 5){
+        if (index == 1 || index == 5) {
             System.out.println(" Введите значение: ");
             int number = IOconsole.scannerInt();
             object = number;
-        }
-        else {
+        } else {
             System.out.println(" Введите строку: ");
             String number = IOconsole.scannerStr();
             object = number;
         }
         return object;
     }
+
     public static void showList(List<Member> list) {
         for (Member member : list) {
             IOconsole.show(member.toString());
         }
+    }
+
+    public static boolean chose() {
+        do {
+            System.out.println(" Удалить выбранное (д/н или y/n) -> ");
+            String value = IOconsole.scannerStr();
+            return (value.compareTo("y") == 0 || value.compareTo("д") == 0 || value.compareTo("Y") == 0 || value.compareTo("Д") == 0);
+        } while (true);
     }
 }

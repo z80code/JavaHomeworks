@@ -29,9 +29,9 @@ public class Start {
         // конец блока автоввода
 
         int mode;
-        Menu menu = new Menu();
+        //Menu menu = new Menu();
         do {
-            mode = menu.mainMenu(Members.count());
+            mode = Menu.mainMenu(Members.count());
             switch (mode) {
                 case 1: {// добавление
                     Members.add(Enter.Member(Members.getSelector()));
@@ -50,7 +50,7 @@ public class Start {
                         break;
                     }
 
-                    int index = menu.findMenu();
+                    int index = Menu.findMenu();
                     if (index == 0) break;
 
                     Object object = Enter.getValue(index);
@@ -63,18 +63,21 @@ public class Start {
                         System.out.println(" В пустой базе нечего удалять.\n");
                         break;
                     }
-                    int index = menu.findMenu();
+                    int index = Menu.findMenu();
                     if (index == 0) break;
 
                     Object object = Enter.getValue(index);
-                    List<Member> listM = Members.find(index, object);
-                    IOconsole.showList(listM);
-
-                    if (listM.size() == 0){
-                        IOconsole.show("Нечего удалять.");
-                        break;
+                    List<Member> listForDelete = Members.find(index, object);
+                    if (listForDelete.size() > 0) {
+                        IOconsole.showList(listForDelete);
+                        if (Enter.chose())/// если ДА - Удаляем
+                        {
+                            Members.delete(listForDelete);
+                            System.out.println(" Данные удалены.");
+                        } else System.out.println(" Удаление отменено.");
+                    } else {
+                        System.out.println(" Нечего удалять.\n");
                     }
-                    Members.delete(index, listM);
                     break;
                 }
 //                case 5: {// сортировка

@@ -85,7 +85,7 @@ public abstract class abstractBase implements Ibase
                     int type=(int)value;
                     for (int i = 0; i < members.size(); i++) {
                         if (members.get(i).getPhoneType() == type) {
-                            System.out.println(members.get(i).toString());
+                            result.add(members.get(i));
                             count_wr++;
                         }
                     }
@@ -95,7 +95,7 @@ public abstract class abstractBase implements Ibase
                     String relative = (String)value;
                     for (int i = 0; i < members.size(); i++) {
                         if (members.get(i).getRelative().compareTo(relative) == 0) {
-                            System.out.println(members.get(i).toString());
+                            result.add(members.get(i));
                             count_wr++;
                         }
                     }
@@ -116,109 +116,17 @@ public abstract class abstractBase implements Ibase
     }
 
     @Override
-    public boolean delete(int index, List<Member> listForDelete) {
+    public void delete(List<Member> listForDelete) {
         List<Member> members = read();
         int size = members.size();
         int[] forDelete = new int[size];
-
-        int count_wr = 0;
-        switch (index) {
-            case 1:/// Удаление по номеру ID.
-            {
-                for (int i = 0; i < size; i++) {
-                    if (members.get(i).equals() .getId() == newMember.getId()) {
-                        System.out.println(memberList.get(i).toString());
-                        forDelete[count_wr] = i;
-                        count_wr++;
-                    }
-                }
-                break;
-            }
-            case 2:/// Удаление по Имени.
-            {
-                for (int i = 0; i < memberList.size(); i++) {
-                    if (memberList.get(i).getFname().compareTo(newMember.getFname()) == 0) {
-                        System.out.println(memberList.get(i).toString());
-                        forDelete[count_wr] = i;
-                        count_wr++;
-                    }
-                }
-                break;
-            }
-            case 3:/// Удаление по фамилии.
-            {
-                for (int i = 0; i < memberList.size(); i++) {
-                    if (memberList.get(i).getLname().compareTo(newMember.getLname()) == 0) {
-                        System.out.println(memberList.get(i).toString());
-                        forDelete[count_wr] = i;
-                        count_wr++;
-                    }
-                }
-                break;
-            }
-            case 4:/// Удаление по номеру телефона.
-            {
-                for (int i = 0; i < memberList.size(); i++) {
-                    if (memberList.get(i).getPhoneNumber().getNum().compareTo(newMember.getPhoneNumber().getNum()) == 0) {
-                        System.out.println(memberList.get(i).toString());
-                        forDelete[count_wr] = i;
-                        count_wr++;
-                    }
-                }
-                break;
-            }
-            case 5:/// Удаление по типу телефона.
-            {
-                for (int i = 0; i < memberList.size(); i++) {
-                    if (memberList.get(i).getPhoneNumber().getType() == newMember.getPhoneNumber().getType()) {
-                        System.out.println(memberList.get(i).toString());
-                        forDelete[count_wr] = i;
-                        count_wr++;
-                    }
-                }
-                break;
-            }
-            case 6:/// Удаление по типу телефона.
-            {
-                for (int i = 0; i < memberList.size(); i++) {
-                    if (memberList.get(i).getRelative().compareTo(newMember.getRelative()) == 0) {
-                        System.out.println(memberList.get(i).toString());
-                        forDelete[count_wr] = i;
-                        count_wr++;
-                    }
-                }
-                break;
-            }
-            //ShellsSortNumber(memberList, baseSize, 1);
-
-        }
-        if (count_wr == 0) {
-            System.out.println(" Нет записей ...");
-        } else {
-            System.out.format("Найдено записей: %d\n", count_wr);
-        }
-        //-----------------------------------------------------------
-        if (count_wr != 0) {
-            if (chose())/// если ДА - Удаляем
-            {
-                int baseSize = memberList.size();
-                for (int i = count_wr - 1; i >= 0; i--) {
-                    if (forDelete[i] != baseSize - 1) {
-                        memberList.set(forDelete[i],memberList.get(baseSize - 1));
-                        //memberList[forDelete[i]] = memberList[baseSize - 1];
-                    }
-                    memberList.remove(baseSize - 1);
-                    baseSize--;
-                }
-                System.out.println(" Данные удалены.");
-            } else System.out.println(" Удаление отменено.");
-        } else {
-            System.out.println(" Нечего удалять.\n");
+        for (int i = 0; i < listForDelete.size(); i++) {
+            forDelete[i] = listForDelete.get(i).getId();
         }
 
-
-
-        return false;
+        for (int i = listForDelete.size()-1; i >= 0; i--) {
+            members.remove(forDelete[i]);
+        }
     }
 
     @Override
