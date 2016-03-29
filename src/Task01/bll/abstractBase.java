@@ -2,8 +2,7 @@ package Task01.bll;
 
 import Task01.model.Member;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public abstract class abstractBase implements Ibase
 {
@@ -26,10 +25,26 @@ public abstract class abstractBase implements Ibase
             return max + 1;
     }
 
+    @Override
+    public List<Member> getAll() {
+        return read();
+    }
+
+    @Override
+    public Member getById(int id) {
+        List<Member> members = read();
+        Member member = null;
+        for (int i = 0; i < members.size(); i++) {
+
+            if (members.get(i).getId() == id) return members.get(i);
+        }
+        return member;
+    }
+
     /*  Поиск в базе по значению поля
-             *  index - номер поля в записи. Начиная с "1".
-             *  value - упакованное значение
-             */
+                     *  index - номер поля в записи. Начиная с "1".
+                     *  value - упакованное значение
+                     */
     @Override
     public List<Member> find(int index, Object value) {
         List<Member> members = read();
@@ -116,6 +131,19 @@ public abstract class abstractBase implements Ibase
     }
 
     @Override
+    public boolean change(int id, Member member) {
+        List<Member> members = read();
+        int size = members.size();
+        int i=0;
+        for (; i < size; i++) {
+            if (members.get(i).getId() == member.getId()) break;
+        }
+        if(i>=size) return false;
+        members.add(i,member);
+        return true;
+    }
+
+    @Override
     public void delete(List<Member> listForDelete) {
         List<Member> members = read();
         int size = members.size();
@@ -127,18 +155,41 @@ public abstract class abstractBase implements Ibase
         for (int i = listForDelete.size()-1; i >= 0; i--) {
             members.remove(forDelete[i]);
         }
+        save(members);
     }
 
     @Override
     public void sort(int index) {
         List<Member> members = read();
+        Collections.sort(members, new Comparator<Member>() {
+            @Override
+            public int compare(Member o1, Member o2) {
+                switch (index){
+                    case 1:
+                        return (o1.getId()>o2.getId())?-1:1;
+                    case 2:
+                        return o1.getFname().compareTo(o2.getFname());
+                    case 3:
+                        return o1.getLname().compareTo(o2.getLname());
+                    case 4:
+                        return o1.getPhoneNumber().compareTo(o2.getPhoneNumber());
+                    case 5:
+                        return (o1.getPhoneType()>o2.getPhoneType())?-1:1;
+                    case 6:
+                        return o1.getRelative().compareTo(o2.getRelative());
+                }
+                return 0;
+            }
+        });
+
 
     }
 
     @Override
-    public String toString(Member member) {
+    public String toString(int index) {
         List<Member> members = read();
-        return null;
+
+        return members.get(index).toString();
     }
 
     @Override
