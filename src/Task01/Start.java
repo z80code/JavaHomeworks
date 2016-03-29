@@ -1,5 +1,6 @@
 package Task01;
 
+import Task01.bll.InCSVfile;
 import Task01.bll.InMemory;
 import Task01.model.Member;
 import Task01.model.Phone;
@@ -11,8 +12,8 @@ import java.util.List;
 
 public class Start {
     public static void main(String[] args) {
-        InMemory Members = new InMemory();
-
+        // InMemory Members = new InMemory();
+        InCSVfile Members = new InCSVfile();
         //закоментируйте, чтобы создать пустую базу
         // начало блока автоввода
         Member Number = new Member(0, "Иван", "Иванов", new Phone("697-45-87", 1), "друг");
