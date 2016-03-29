@@ -65,7 +65,7 @@ public final class Enter {
         if (index == 4) {
             IO.show("Старое значение Телефон: ");
             IO.show(member.getPhoneNumber());
-            phone.setNum(IO.scannerStr());
+            member.setPhoneNumber(IO.scannerStr());
         }
         //
         if (index == 5) {

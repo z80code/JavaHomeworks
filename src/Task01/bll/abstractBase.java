@@ -134,12 +134,10 @@ public abstract class abstractBase implements Ibase
     public boolean change(int id, Member member) {
         List<Member> members = read();
         int size = members.size();
-        int i=0;
-        for (; i < size; i++) {
-            if (members.get(i).getId() == member.getId()) break;
-        }
-        if(i>=size) return false;
-        members.add(i,member);
+        int i= members.indexOf(member);
+        if(i<0) return false;
+        members.set(i,member);
+        save(members);
         return true;
     }
 
@@ -180,14 +178,12 @@ public abstract class abstractBase implements Ibase
                 return 0;
             }
         });
-
-
+        save(members);
     }
 
     @Override
     public String toString(int index) {
         List<Member> members = read();
-
         return members.get(index).toString();
     }
 

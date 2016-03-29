@@ -52,6 +52,6 @@ public final class IO {
         for (Member member: list) {
             System.out.println(member.toString());
         }
-        System.out.format("Найдено: %d", list.size());
+        System.out.format("Найдено: %d\n", list.size());
     }
 }

@@ -28,19 +28,21 @@ public class Start {
         // конец блока автоввода
 
         int mode;
-        //Menu menu = new Menu();
         do {
             mode = Menu.mainMenu(Members.count());
             switch (mode) {
                 case 1: {// добавление
+                    IO.show("Добавление в список: ");
                     Members.add(Enter.Member(Members.getSelector()));
                     break;
                 }
                 case 2: {// вывод всего
+                    IO.show("Вывод списка: ");
                     IO.showList(Members.getAll());
                     break;
                 }
                 case 3: {// поиск
+                    IO.show("Поиск по списку: ");
                     if (Members.count() <= 0) {
                         System.out.println(" В пустой базе нечего искать.\n");
                         break;
@@ -55,6 +57,7 @@ public class Start {
                     break;
                 }
                 case 4: {// удаление
+                    IO.show("Удаление в списке: ");
                     if (Members.count() <= 0) {
                         System.out.println(" В пустой базе нечего удалять.\n");
                         break;
@@ -77,6 +80,7 @@ public class Start {
                     break;
                 }
                 case 5: {// сортировка
+                    IO.show("Сортиовка списка: ");
                     if (Members.count() <= 0) {
                         System.out.println(" В пустой базе нечего сортировать.\n");
                         break;
@@ -87,6 +91,7 @@ public class Start {
                     break;
                 }
                 case 6: {// изменение
+                    IO.show("Изменение записи списка: ");
                     if (Members.count() <= 0) {
                         System.out.println(" В пустой базе нечего изменять.\n");
                         break;
@@ -95,7 +100,7 @@ public class Start {
                     if (index == 0) break;
                     IO.showList(Members.getAll());
 
-                    int selectId, selectIndex;
+                    int selectId;
                     Member member;
                     do {
                         IO.show("Укажите существующий ID из списка");
