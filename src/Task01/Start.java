@@ -16,16 +16,16 @@ public class Start {
         InCSVfile Members = new InCSVfile();
         //закоментируйте, чтобы создать пустую базу
         // начало блока автоввода
-        Member Number = new Member(0, "Иван", "Иванов", new Phone("697-45-87", 1), "друг");
-        Members.add(Number);
-        Member Number1 = new Member(1, "Сергей", "Петров", new Phone("622-02-13", 2), "знакомый");
-        Members.add(Number1);
-        Member Number2 = new Member(2, "Петр", "Сидоров", new Phone("648-56-23", 3), "враг");
-        Members.add(Number2);
-        Member Number3 = new Member(3, "Ольга", "Ященко", new Phone("613-82-12", 4), "коллега");
-        Members.add(Number3);
-        Member Number4 = new Member(4, "Зина", "Петрова", new Phone("652-34-14", 2), "враг");
-        Members.add(Number4);
+//        Member Number = new Member(0, "Иван", "Иванов", new Phone("697-45-87", 1), "друг");
+//        Members.add(Number);
+//        Member Number1 = new Member(1, "Сергей", "Петров", new Phone("622-02-13", 2), "знакомый");
+//        Members.add(Number1);
+//        Member Number2 = new Member(2, "Петр", "Сидоров", new Phone("648-56-23", 3), "враг");
+//        Members.add(Number2);
+//        Member Number3 = new Member(3, "Ольга", "Ященко", new Phone("613-82-12", 4), "коллега");
+//        Members.add(Number3);
+//        Member Number4 = new Member(4, "Зина", "Петрова", new Phone("652-34-14", 2), "враг");
+//        Members.add(Number4);
         // конец блока автоввода
 
         int mode;

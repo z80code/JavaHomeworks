@@ -19,6 +19,7 @@ public final class IO {
             }
             else{
                 show(Message.NotNumber);
+                scan.next();
             }
         } while (result==-1);
 
@@ -33,9 +34,6 @@ public final class IO {
         do{
             if (scan.hasNext()){
                 result = scan.next();
-            }
-            else{
-                show(Message.NotNumber);
             }
         } while (result=="");
         return result;

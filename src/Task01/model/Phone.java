@@ -11,7 +11,7 @@ public class Phone {
     // TODO если хотите хранить тип по номеру, то нужно использовать Enum
     private int type;//             Тип (например домашний, рабочий и т.д.)
 
-    public Phone() {};
+    public Phone() {}
 
     public Phone(String num_phone, int type) {
         this.num = num_phone;
