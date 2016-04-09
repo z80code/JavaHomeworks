@@ -15,10 +15,7 @@ public class Start {
     public static void main(String[] args) {
         //InMemory Members = new InMemory();
         //InCSVfile Members = new InCSVfile();
-
         InSerializeable Members = new InSerializeable();
-       // if (members==null) members = new List<Member>();
-        //InSerializeable Members = new InSerializeable();
 
         //закоментируйте, чтобы создать пустую базу
         // начало блока автоввода

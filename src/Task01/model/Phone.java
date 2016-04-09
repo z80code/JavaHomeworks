@@ -1,11 +1,9 @@
 package Task01.model;
 
-/**
- * Created by Scorpion on 23.03.2016.
- */
+import java.io.Serializable;
 
 // класс телефона
-public class Phone {
+public class Phone  implements Serializable {
 
     private String num;//           Номер телефона
     // TODO если хотите хранить тип по номеру, то нужно использовать Enum

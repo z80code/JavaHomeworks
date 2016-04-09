@@ -1,43 +1,37 @@
 package Task01.model;
 
+import java.io.Serializable;
+
 // класс персоны
-public class Member {
+public class Member implements Serializable {
         private int id;             //      Id
         private String firstname;   //      Имя
         private String lastname;    //      Фамилия
         Phone phone = new Phone();  //      Номер телефона (тоже объект)
         private String relative;    //      Список тегов (например: друг, коллега, семья и т.д)
 
-        public Member(String fname, String lname, Phone phone, String relative) {
-            this.firstname = fname;
-            this.lastname = lname;
-            this.phone = phone;
-            this.relative = relative;
-        }
+    public Member(){};
 
-        public Member(String fname, String lname, String phoneNumber, int phoneType, String relative) {
-            this.firstname = fname;
-            this.lastname = lname;
-            this.phone = new Phone(phoneNumber, phoneType);
-            this.relative = relative;
-        }
+    public Member(String fname, String lname, Phone phone, String relative) {
+        this.firstname = fname;
+        this.lastname = lname;
+        this.relative = relative;
+        this.phone = phone;
+    }
 
-        public Member(int id, String fname, String lname, Phone phone, String relative) {
-            this.id = id;
-            this.firstname = fname;
-            this.lastname = lname;
-            this.phone = phone;
-            this.relative = relative;
-        }
+    public Member(int id, String fname, String lname, String phoneNumber, int phoneType, String relative) {
+        this(fname, lname, new Phone(phoneNumber, phoneType), relative);
+        this.id = id;
+    }
 
-        public Member(int id, String fname, String lname, String phoneNumber, int phoneType, String relative) {
-            this.id = id;
-            this.firstname = fname;
-            this.lastname = lname;
-            this.phone = new Phone(phoneNumber, phoneType);
-            this.relative = relative;
-        }
-        public Member(){};
+    public Member(int id, String fname, String lname, Phone phone, String relative){
+        this(fname, lname, phone, relative);
+        this.id = id;
+    }
+
+    public Member(String fname, String lname, String phoneNumber, int phoneType, String relative) {
+        this(0, fname, lname, new Phone(phoneNumber, phoneType), relative);
+    }
 
         public void setId(int id) {
             this.id = id;
@@ -54,12 +48,12 @@ public class Member {
         public void setPhone(Phone phone) {
             this.phone = phone;
         }
-        public void setPhoneNumber(String phoneNumber) {
 
+        public void setPhoneNumber(String phoneNumber) {
             this.phone.setNum(phoneNumber);
         }
-        public void setPhoneType(int type) {
 
+        public void setPhoneType(int type) {
             this.phone.setType(type);
         }
 
@@ -84,11 +78,10 @@ public class Member {
         }
 
         public String getPhoneNumber() {
-
             return this.phone.getNum();
         }
-        public int getPhoneType() {
 
+        public int getPhoneType() {
             return this.phone.getType();
         }
 
@@ -100,15 +93,12 @@ public class Member {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Member member = (Member) o;
-
         if (id != member.id) return false;
         if (!firstname.equals(member.firstname)) return false;
         if (!lastname.equals(member.lastname)) return false;
         if (!phone.equals(member.phone)) return false;
         return relative.equals(member.relative);
-
     }
 
     @Override
