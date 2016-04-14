@@ -96,35 +96,19 @@ public class Myframe extends JFrame {
                                    }
                                }
         );
-        item2.addMouseListener(new
-                MenuMouseAdapter("Открыть существующий файл.", " ", status)
-
-        );
 
         JMenuItem item3 = new JMenuItem("Сохранить");
-        item3.addMouseListener(new
-
-                MenuMouseAdapter("Созранить текущий файл.", " ", status)
-
-        );
-        JMenuItem item4 = new JMenuItem("Сохранить как..");
-        item4.addMouseListener(new
-
-                MenuMouseAdapter("Сохранить файл как..", " ", status)
-
-        );
+        item3.addMouseListener(new MenuMouseAdapter("Соxранить текущий файл.", " ", status));
+        item3.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                saveFile();
+            }
+        });
         JMenuItem item5 = new JMenuItem("Закрыть");
-        item5.addMouseListener(new
-
-                MenuMouseAdapter("Закрыть файл.", " ", status)
-
-        );
+        item5.addMouseListener(new MenuMouseAdapter("Закрыть файл.", " ", status));
         JMenuItem item6 = new JMenuItem("Выход");
-        item6.addMouseListener(new
-
-                MenuMouseAdapter("Выход из программы.", " ", status)
-
-        );
+        item6.addMouseListener(new MenuMouseAdapter("Выход из программы.", " ", status));
         //Добавляем обработчик события по нажатию
         item6.addMouseListener(new MouseAdapter() {
             @Override
@@ -137,7 +121,6 @@ public class Myframe extends JFrame {
         menuFile.add(item2);
         menuFile.addSeparator();//Разделитель
         menuFile.add(item3);
-        menuFile.add(item4);
         menuFile.addSeparator();//Разделитель
         menuFile.add(item5);
         menuFile.addSeparator();//Разделитель
@@ -156,8 +139,7 @@ public class Myframe extends JFrame {
                                         int b = (int) (Math.random() * 63 + 192);
                                         contentPane.setBackground(new Color(r, g, b));
                                     }
-                                }
-        );
+                                });
         itemv1.addMouseListener(new MenuMouseAdapter("Изменение цвета фона.", " ", status));
         //Добавляем "горячею клавишу"
         //itemv1.setAccelerator(KeyStroke.getKeyStroke(67, InputEvent.CTRL_MASK));
@@ -180,7 +162,7 @@ public class Myframe extends JFrame {
         if (filename == null) return false;
         if (!filename.exists()) {
             choose = JOptionPane.showConfirmDialog(null, "Нет такого файла.",
-                    "Внимание!", JOptionPane.YES_OPTION);
+                    "Внимание!",  JOptionPane.OK_OPTION);
             return false;
         }
         String s;
