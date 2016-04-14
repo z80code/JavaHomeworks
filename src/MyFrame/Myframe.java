@@ -7,7 +7,6 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 public class Myframe extends JFrame {
-
     JPanel contentPane;
     BorderLayout borderLayout1 = new BorderLayout();
     JLabel status = new JLabel(" "); //Строка статуса
@@ -47,8 +46,8 @@ public class Myframe extends JFrame {
         JMenu menuFile = new JMenu("Файл");
         JMenu menuView = new JMenu("Просмотр");
         //Добавляем к нашем подменю обработчики событий
-        menuFile.addMouseListener(new MenuExampleMouseAdapter("Файловое меню", " ", status));
-        menuView.addMouseListener(new MenuExampleMouseAdapter("Меню просмотра", " ", status));
+        menuFile.addMouseListener(new MenuMouseAdapter("Файловое меню", " ", status));
+        menuView.addMouseListener(new MenuMouseAdapter("Меню просмотра", " ", status));
         //Создаем элементы подменю File с обработчиками событий
         JMenuItem item1 = new JMenuItem("Новый");
         item1.addMouseListener(new MouseAdapter() {
@@ -78,7 +77,7 @@ public class Myframe extends JFrame {
         );
         item1.addMouseListener(new
 
-                MenuExampleMouseAdapter("Создать новый файл.", " ", status)
+                MenuMouseAdapter("Создать новый файл.", " ", status)
 
         );
 
@@ -111,32 +110,32 @@ public class Myframe extends JFrame {
                                }
         );
         item2.addMouseListener(new
-                MenuExampleMouseAdapter("Открыть существующий файл.", " ", status)
+                MenuMouseAdapter("Открыть существующий файл.", " ", status)
 
         );
 
         JMenuItem item3 = new JMenuItem("Сохранить");
         item3.addMouseListener(new
 
-                MenuExampleMouseAdapter("Созранить текущий файл.", " ", status)
+                MenuMouseAdapter("Созранить текущий файл.", " ", status)
 
         );
         JMenuItem item4 = new JMenuItem("Сохранить как..");
         item4.addMouseListener(new
 
-                MenuExampleMouseAdapter("Сохранить файл как..", " ", status)
+                MenuMouseAdapter("Сохранить файл как..", " ", status)
 
         );
         JMenuItem item5 = new JMenuItem("Закрыть");
         item5.addMouseListener(new
 
-                MenuExampleMouseAdapter("Закрыть файл.", " ", status)
+                MenuMouseAdapter("Закрыть файл.", " ", status)
 
         );
         JMenuItem item6 = new JMenuItem("Выход");
         item6.addMouseListener(new
 
-                MenuExampleMouseAdapter("Выход из программы.", " ", status)
+                MenuMouseAdapter("Выход из программы.", " ", status)
 
         );
         //Добавляем обработчик события по нажатию
@@ -147,7 +146,6 @@ public class Myframe extends JFrame {
                                                 System.exit(0);//Выход из системы
                                             }
                                         }
-
         );
         //Добавляем созданные элементы подменю File
         menuFile.add(item1);
@@ -163,7 +161,7 @@ public class Myframe extends JFrame {
         JMenuItem itemv1 = new JMenuItem("Цвет фона");
         itemv1.addMouseListener(new
 
-                MenuExampleMouseAdapter("Изменение цвета фона", " ", status)
+                MenuMouseAdapter("Изменение цвета фона", " ", status)
 
         );
         itemv1.setAccelerator(KeyStroke.getKeyStroke(67, Event.CTRL_MASK));
@@ -180,7 +178,7 @@ public class Myframe extends JFrame {
         );
         itemv1.addMouseListener(new
 
-                MenuExampleMouseAdapter("Change background color", " ", status)
+                MenuMouseAdapter("Change background color", " ", status)
 
         );
         //Добавляем "горячею клавишу"
@@ -274,34 +272,5 @@ public class Myframe extends JFrame {
     public static void main(String[] args) { //эта функция может быть и в другом классе
         Myframe app = new Myframe(); //Создаем экземпляр нашего приложения
         app.setVisible(true); //С этого момента приложение запущено!
-    }
-}
-
-class MenuExampleMouseAdapter extends MouseAdapter {
-    String messageEntered;
-    String messageExited;
-    JLabel status;
-
-    /**
-     * Конструктор
-     *
-     * @param messageEntered строка которую выводим в строку
-     *                       статуса по входу курсора на элемент
-     * @param messageExited  строка которую выводим в строку
-     *                       статуса по выходу курсора за пределы элемента
-     *                       status строка статуса в которую происходит вывод
-     */
-    public MenuExampleMouseAdapter(String messageEntered, String messageExited, JLabel status) {
-        this.messageEntered = messageEntered;
-        this.messageExited = messageExited;
-        this.status = status;
-    }
-
-    public void mouseEntered(MouseEvent e) {
-        status.setText(messageEntered);
-    }
-
-    public void mouseExited(MouseEvent e) {
-        status.setText(messageExited);
     }
 }
