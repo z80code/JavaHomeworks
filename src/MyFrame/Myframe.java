@@ -58,15 +58,11 @@ public class Myframe extends JFrame {
                                                    "Внимание!", JOptionPane.YES_NO_OPTION) == 0) {
                                                // Сохраняем
                                                if (!saveFile()) return;
-                                           } else {
-                                               // не сохраняем
-                                               // чистим
+                                           } else {// не сохраняем и чистим
                                                textArea.setText("");
                                            }
                                            //System.out.println(wr); // отладка
-                                       } else
-
-                                       {
+                                       } else {
                                            textArea = new JTextArea();
                                            contentPane.add(textArea, BorderLayout.CENTER);
                                        }
@@ -88,13 +84,11 @@ public class Myframe extends JFrame {
                                    @Override
                                    public void mousePressed(MouseEvent e) {
                                        if (textArea != null) {
-                                           if (JOptionPane.showConfirmDialog(null, "Уже есть открытый документ. Сохраниить его?",
+                                           if (JOptionPane.showConfirmDialog(null, "Есть открытый документ. Сохраниить его?",
                                                    "Внимание!", JOptionPane.YES_NO_OPTION) == 0) {
                                                // Сохраняем
                                                if (!saveFile()) return;
-                                           } else {
-                                               // не сохраняем
-                                               // чистим
+                                           } else {// не сохраняем и чистим
                                                textArea.setText("");
                                            }
                                            //System.out.println(wr); // отладка
@@ -202,6 +196,7 @@ public class Myframe extends JFrame {
         int choose = 0;
         fs.showDialog(null, "Открыть");
         filename = fs.getSelectedFile();
+        if (filename==null) return false;
         if (!filename.exists()) {
             choose = JOptionPane.showConfirmDialog(null, "Нет такого файла.",
                     "Внимание!", JOptionPane.YES_OPTION);
@@ -236,6 +231,7 @@ public class Myframe extends JFrame {
         int choose = 0;
         fs.showDialog(null, "Сохранить");
         filename = fs.getSelectedFile();
+        if (filename==null) return false;
         if (filename.exists())
             choose = JOptionPane.showConfirmDialog(null, "Такой файл уже существует. Перезаписать его?",
                     "Внимание!", JOptionPane.YES_NO_OPTION);
