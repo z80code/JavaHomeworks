@@ -20,7 +20,7 @@ public class Myframe extends JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
     private void jbInit() throws Exception {
@@ -67,20 +67,13 @@ public class Myframe extends JFrame {
                                            contentPane.add(textArea, BorderLayout.CENTER);
                                        }
                                        contentPane.updateUI();
-
                                    }
                                }
         );
-        item1.addMouseListener(new
-
-                MenuMouseAdapter("Создать новый файл.", " ", status)
-
-        );
-
+        item1.addMouseListener(new MenuMouseAdapter("Создать новый файл.", " ", status));
 
         JMenuItem item2 = new JMenuItem("Открыть");
         item2.addMouseListener(new MouseAdapter() {
-
                                    @Override
                                    public void mousePressed(MouseEvent e) {
                                        if (textArea != null) {
@@ -133,14 +126,12 @@ public class Myframe extends JFrame {
 
         );
         //Добавляем обработчик события по нажатию
-        item6.addActionListener(new
-
-                                        ActionListener() {
-                                            public void actionPerformed(ActionEvent e) {
-                                                System.exit(0);//Выход из системы
-                                            }
-                                        }
-        );
+        item6.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                System.exit(0);//Выход из системы
+            }
+        });
         //Добавляем созданные элементы подменю File
         menuFile.add(item1);
         menuFile.add(item2);
@@ -153,30 +144,23 @@ public class Myframe extends JFrame {
         menuFile.add(item6);
         //Создаем элементы подменю View с обработчиками событий
         JMenuItem itemv1 = new JMenuItem("Цвет фона");
-        itemv1.addMouseListener(new
-
-                MenuMouseAdapter("Изменение цвета фона", " ", status)
-
-        );
-        itemv1.setAccelerator(KeyStroke.getKeyStroke(67, Event.CTRL_MASK));
+        itemv1.addMouseListener(new MenuMouseAdapter("Изменение цвета фона", " ", status));
+        itemv1.setAccelerator(KeyStroke.getKeyStroke(67, InputEvent.CTRL_MASK));
         //Создаём обработчик события по нажатию на элемент itemv1
-        itemv1.addActionListener(new ActionListener() {
-                                     public void actionPerformed(ActionEvent e) {
-                                         //Случайным образом меняем цвет фона панели
-                                         int r = (int) (Math.random() * 63 + 192);
-                                         int g = (int) (Math.random() * 63 + 192);
-                                         int b = (int) (Math.random() * 63 + 192);
-                                         contentPane.setBackground(new Color(r, g, b));
-                                     }
-                                 }
+        itemv1.addMouseListener(new MouseAdapter() {
+                                    @Override
+                                    public void mousePressed(MouseEvent e) {
+                                        //Случайным образом меняем цвет фона панели
+                                        int r = (int) (Math.random() * 63 + 192);
+                                        int g = (int) (Math.random() * 63 + 192);
+                                        int b = (int) (Math.random() * 63 + 192);
+                                        contentPane.setBackground(new Color(r, g, b));
+                                    }
+                                }
         );
-        itemv1.addMouseListener(new
-
-                MenuMouseAdapter("Change background color", " ", status)
-
-        );
+        itemv1.addMouseListener(new MenuMouseAdapter("Изменение цвета фона.", " ", status));
         //Добавляем "горячею клавишу"
-        itemv1.setAccelerator(KeyStroke.getKeyStroke(67, Event.CTRL_MASK));
+        //itemv1.setAccelerator(KeyStroke.getKeyStroke(67, InputEvent.CTRL_MASK));
         //Добавляем элемент
         menuView.add(itemv1);
 
@@ -184,10 +168,7 @@ public class Myframe extends JFrame {
         menuBar.add(menuFile);
         menuBar.add(menuView);
         //Устанавливаем полученное меню на окно
-        this.
-
-                setJMenuBar(menuBar);
-
+        this.setJMenuBar(menuBar);
     }
 
     private boolean openFile() {
@@ -196,32 +177,29 @@ public class Myframe extends JFrame {
         int choose = 0;
         fs.showDialog(null, "Открыть");
         filename = fs.getSelectedFile();
-        if (filename==null) return false;
+        if (filename == null) return false;
         if (!filename.exists()) {
             choose = JOptionPane.showConfirmDialog(null, "Нет такого файла.",
                     "Внимание!", JOptionPane.YES_OPTION);
             return false;
         }
-        //String txt = textArea.getText();
         String s;
         BufferedReader buffReader = null;
         try {
             buffReader = new BufferedReader(new FileReader(filename));
             while ((s = buffReader.readLine()) != null) {
                 textArea.append(s);
-                textArea.append("\n\r");
+                textArea.append("\n");
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             try {
-                buffReader.close();
+                if (buffReader!=null) buffReader.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return true;
+            return false;
         }
     }
 
@@ -231,7 +209,7 @@ public class Myframe extends JFrame {
         int choose = 0;
         fs.showDialog(null, "Сохранить");
         filename = fs.getSelectedFile();
-        if (filename==null) return false;
+        if (filename == null) return false;
         if (filename.exists())
             choose = JOptionPane.showConfirmDialog(null, "Такой файл уже существует. Перезаписать его?",
                     "Внимание!", JOptionPane.YES_NO_OPTION);
@@ -243,14 +221,16 @@ public class Myframe extends JFrame {
 
             bufferedWriter.append(txt);
 
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
         } catch (IOException e1) {
             e1.printStackTrace();
         } finally {
             try {
-                bufferedWriter.flush();
-                bufferedWriter.close();
+                if (bufferedWriter!=null)
+                {
+                    bufferedWriter.flush();
+                    bufferedWriter.close();
+                }
+
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
