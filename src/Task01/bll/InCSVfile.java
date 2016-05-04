@@ -7,10 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InCSVfile extends abstractBase {
+
+    private final String filename = "data.csv";
+
     @Override
     protected List<Member> read() {
         List<Member> members = new ArrayList<>();
-        File file = new File("data.csv");
+        File file = new File(filename);
+        if (!file.exists()) return members;
         String s;
         BufferedReader buffReader = null;
         try {
@@ -21,7 +25,7 @@ public class InCSVfile extends abstractBase {
                 String[] str = s.split(",");
                 int id = Integer.parseInt(str[0].trim());
                 int phoneType = Integer.parseInt(str[4].trim());
-                members.add(new Member(id, str[1].trim(), str[2].trim(), str[3].trim(), phoneType, str[5].trim()));
+                members.add(new Member(id, str[1].trim(), str[2].trim(), str[5].trim(), phoneType, str[3].trim()));
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -39,8 +43,7 @@ public class InCSVfile extends abstractBase {
 
     @Override
     protected void save(List<Member> members) {
-
-        File file = new File("data.csv");
+        File file = new File(filename);
         BufferedWriter bufferedWriter = null;
         try {
             bufferedWriter = new BufferedWriter(new FileWriter(file));

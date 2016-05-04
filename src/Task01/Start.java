@@ -3,6 +3,7 @@ package Task01;
 import Task01.bll.InCSVfile;
 import Task01.bll.InMemory;
 import Task01.bll.InSerializeable;
+import Task01.bll.UInCSVfile;
 import Task01.model.Member;
 import Task01.model.Phone;
 import Task01.ui.Enter;
@@ -15,19 +16,22 @@ public class Start {
     public static void main(String[] args) {
         //InMemory Members = new InMemory();
         //InCSVfile Members = new InCSVfile();
-        InSerializeable Members = new InSerializeable();
+        //InSerializeable Members = new InSerializeable();
+
+        UInCSVfile Members = new UInCSVfile();
+
 
         //закоментируйте, чтобы создать пустую базу
         // начало блока автоввода
-//        Member Number = new Member(0, "Иван", "Иванов", new Phone("697-45-87", 1), "друг");
+//        Member Number = new Member(0, "Иван", "Иванов", "друг", new Phone("697-45-87", 1));
 //        Members.add(Number);
-//        Member Number1 = new Member(1, "Сергей", "Петров", new Phone("622-02-13", 2), "знакомый");
+//        Member Number1 = new Member(1, "Сергей", "Петров", "знакомый", new Phone("622-02-13", 2));
 //        Members.add(Number1);
-//        Member Number2 = new Member(2, "Петр", "Сидоров", new Phone("648-56-23", 3), "враг");
+//        Member Number2 = new Member(2, "Петр", "Сидоров", "враг", new Phone("648-56-23", 3));
 //        Members.add(Number2);
-//        Member Number3 = new Member(3, "Ольга", "Ященко", new Phone("613-82-12", 4), "коллега");
+//        Member Number3 = new Member(3, "Ольга", "Ященко", "коллега", new Phone("613-82-12", 4));
 //        Members.add(Number3);
-//        Member Number4 = new Member(4, "Зина", "Петрова", new Phone("652-34-14", 2), "враг");
+//        Member Number4 = new Member(4, "Зина", "Петрова", "враг", new Phone("652-34-14", 2));
 //        Members.add(Number4);
         // конец блока автоввода
 

@@ -10,6 +10,7 @@ public class Member implements Serializable {
         Phone phone = new Phone();  //      Номер телефона (тоже объект)
         private String relative;    //      Список тегов (например: друг, коллега, семья и т.д)
 
+
     public Member(){};
 
     public Member(String fname, String lname, Phone phone, String relative) {
