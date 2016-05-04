@@ -46,7 +46,7 @@ public class UInCSVfile extends abstractBase {
         try {
             writer = new CSVWriter(new FileWriter(file)); // Декорированный класс
             String s;
-            s = "id, firstName, lastName, relative, phoneNumber, phoneType";
+            s = "id, firstName, lastName, phoneNumber, phoneType, relative";
             writer.append(s);
             for (Member member: members) {
                 writer.newLine();
