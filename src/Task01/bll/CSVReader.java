@@ -4,14 +4,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.lang.reflect.Field;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Iterator;
 
-public class CSVReader<T> extends BufferedReader {
+public class CSVReader<T> extends BufferedReader implements Iterator {
     private final String filename = "data.csv";
-    Reader reader;
+    private Reader reader;
+    private String[] str;
+    private int index = 0;
 
     public CSVReader(Reader in, int sz) {
         super(in, sz);
@@ -25,26 +24,26 @@ public class CSVReader<T> extends BufferedReader {
 
     public T readObject(T obj) throws IOException {
         String string;
+        index = 0;
         if ((string = readLine()) == null) return null;
-        String[] str = string.split(",");
-        int num = 0;
-        Class cl = obj.getClass();
+        str = string.split(",");
+        return (T)getObject(obj);
+    }
 
+       private Object getObject(Object obj)
+    {
+        Class cl = obj.getClass();
         Field[] fields = cl.getDeclaredFields();
+
         for (Field field : fields) {
             field.setAccessible(true);
             try {
                 if (field.getType().isPrimitive() || field.getType().equals(String.class)) {
-                    field.set(obj, gelValue(field, str[num++]));
+                    field.set(obj, getValue(field, next()));
                 } else {
                     Class c = field.get(obj).getClass();
+                    Object ob = getObject(c.newInstance());
                     Field[] subFields = c.getDeclaredFields();
-                    Object ob = null;
-                    ob = c.newInstance();
-                    for (Field subfield : subFields) {
-                        subfield.setAccessible(true);
-                        subfield.set(ob, gelValue(subfield, str[num++]));
-                    }
                     field.set(obj, ob);
                 }
             } catch (IllegalAccessException e) {
@@ -59,7 +58,7 @@ public class CSVReader<T> extends BufferedReader {
     /*
     * Воспомогательный метод класса
     */
-    private Object gelValue(Field field, String str) throws IllegalAccessException, InstantiationException {
+    private Object getValue(Field field, String str) throws IllegalAccessException, InstantiationException {
 
         if (field.getType() == int.class) {
             return Integer.parseInt(str.trim());
@@ -67,5 +66,14 @@ public class CSVReader<T> extends BufferedReader {
             return str.trim();
     }
 
+    @Override
+    public boolean hasNext() {
+        return index < str.length;
+    }
+
+    @Override
+    public String next() {
+        return str[index++];
+    }
 }
 
