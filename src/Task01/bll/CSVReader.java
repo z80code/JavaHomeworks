@@ -27,14 +27,15 @@ public class CSVReader<T> extends BufferedReader implements Iterator {
         index = 0;
         if ((string = readLine()) == null) return null;
         str = string.split(",");
-        return (T)getObject(obj);
+        return (T) getObject(obj);
     }
 
-       private Object getObject(Object obj)
-    {
+    /*
+     * Воспомогательный рекурсивный метод класса
+     */
+    private Object getObject(Object obj) {
         Class cl = obj.getClass();
         Field[] fields = cl.getDeclaredFields();
-
         for (Field field : fields) {
             field.setAccessible(true);
             try {
