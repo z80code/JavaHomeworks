@@ -43,7 +43,6 @@ public class CSVReader<T> extends BufferedReader implements Iterator {
                 } else {
                     Class c = field.get(obj).getClass();
                     Object ob = getObject(c.newInstance());
-                    Field[] subFields = c.getDeclaredFields();
                     field.set(obj, ob);
                 }
             } catch (IllegalAccessException e) {
