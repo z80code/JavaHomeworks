@@ -13,12 +13,12 @@ public class UInCSVfile extends abstractBase {
     protected List<Member> read() {
         List<Member> members = new ArrayList<>();
         File file = new File(filename);
-        Member member;
-        CSVReader<Member> reader = null;
+        Member member;//= new Reader<Mem>(MyType.class);
+        CSVReader reader = null;
         try {
-            reader = new CSVReader(new FileReader(file));
+            reader = new CSVReader(new BufferedReader(new FileReader(file)));
             String s = reader.readLine();
-            while ((member = reader.readObject(new Member())) != null) {
+            while ((member = (Member) reader.readObject(Member.class)) != null) {
                 members.add(member);
             }
         } catch (FileNotFoundException e) {
@@ -26,11 +26,12 @@ public class UInCSVfile extends abstractBase {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            try {
-                reader.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            if (reader != null)
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
         }
         return members;
     }
@@ -40,7 +41,7 @@ public class UInCSVfile extends abstractBase {
         File file = new File(filename);
         CSVWriter writer = null;
         try {
-            writer = new CSVWriter(new FileWriter(file)); // Декорированный класс
+            writer = new CSVWriter(new BufferedWriter(new FileWriter(file))); // Декорированный класс
             String s;
             s = "id, firstName, lastName, phoneNumber, phoneType, relative";
             writer.append(s);                // добавить строку

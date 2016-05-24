@@ -10,14 +10,14 @@ import java.util.List;
 * */
 public final class CSVWriter<T> extends BufferedWriter {
     private final String filename = "data.csv";
-    Writer writer;
+    BufferedWriter writer;
 
-    public CSVWriter(Writer out) {
+    public CSVWriter(BufferedWriter out) {
         super(out);
         this.writer = out;
     }
 
-    public CSVWriter(Writer out, int sz) {
+    public CSVWriter(BufferedWriter out, int sz) {
         super(out, sz);
         this.writer = out;
     }
@@ -54,7 +54,7 @@ public final class CSVWriter<T> extends BufferedWriter {
                     result.addAll(subResult);
                 }
                 }catch(IllegalAccessException e){
-                    e.printStackTrace();
+                new RuntimeException("Доступ нарушен.",e);
                 }
             }
             return result;

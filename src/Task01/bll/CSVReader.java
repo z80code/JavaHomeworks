@@ -4,56 +4,66 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 import java.util.Iterator;
 
-public class CSVReader<T> extends BufferedReader implements Iterator {
+public class CSVReader<T extends Class> extends BufferedReader implements Iterator {
     private final String filename = "data.csv";
-    private Reader reader;
+    private BufferedReader reader;
     private String[] str;
     private int index = 0;
 
-    public CSVReader(Reader in, int sz) {
+    public CSVReader(BufferedReader in, int sz) {
         super(in, sz);
         this.reader = in;
     }
 
-    public CSVReader(Reader in) {
+    public CSVReader(BufferedReader in) {
         super(in);
         this.reader = in;
     }
 
-    public T readObject(T obj) throws IOException {
+    public Object readObject(T _class) throws IOException {
         String string;
         index = 0;
         if ((string = readLine()) == null) return null;
         str = string.split(",");
-        return (T) getObject(obj);
+        Object result = null;
+        try {
+            result = getObject(_class);
+        } catch (InstantiationException e) {
+            new RuntimeException("Creating object error in Reflection.", e);
+        } catch (IllegalAccessException e) {
+            new RuntimeException("Access denied to field.", e);
+        }
+        return result;
     }
 
     /*
      * Воспомогательный рекурсивный метод класса
      */
-    private Object getObject(Object obj) {
-        Class cl = obj.getClass();
-        Field[] fields = cl.getDeclaredFields();
+    private Object getObject(Class _class) throws InstantiationException, IllegalAccessException {
+        Object obj = newObject(_class);
+        Field[] fields = obj.getClass().getDeclaredFields();
         for (Field field : fields) {
             field.setAccessible(true);
-            try {
-                if (field.getType().isPrimitive() || field.getType().equals(String.class)) {
-                    field.set(obj, getValue(field, next()));
-                } else {
-                    Class c = field.get(obj).getClass();
-                    Object ob = getObject(c.newInstance());
-                    field.set(obj, ob);
-                }
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
+            if (field.getType().isPrimitive() || field.getType().equals(String.class)) {
+                field.set(obj, getValue(field, next()));
+            } else {
+                Class cl = field.getType();
+                Object ob = getObject(cl);
+                field.set(obj, ob);
             }
         }
         return obj;
     }
+
+    private Object newObject(Class _class) throws IllegalAccessException, InstantiationException {
+        Object result = null;
+        result = _class.newInstance();
+        return result;
+    }
+
 
     /*
     * Воспомогательный метод класса
@@ -76,4 +86,3 @@ public class CSVReader<T> extends BufferedReader implements Iterator {
         return str[index++];
     }
 }
-
