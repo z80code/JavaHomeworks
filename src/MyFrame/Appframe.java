@@ -6,13 +6,15 @@ import java.io.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
-public class Myframe extends JFrame {
+public class Appframe extends JFrame {
     JPanel contentPane;
-    BorderLayout borderLayout1 = new BorderLayout();
+    JPanel buttomPane;
     JLabel status = new JLabel(" "); //Строка статуса
     JTextArea textArea;
+    JTextArea ChatArea;
+    JButton send;
 
-    public Myframe() {
+    public Appframe() {
         /**Конструктор */
         enableEvents(AWTEvent.WINDOW_EVENT_MASK);
         try {
@@ -24,20 +26,71 @@ public class Myframe extends JFrame {
     }
 
     private void jbInit() throws Exception {
-        contentPane = (JPanel) this.getContentPane();
-        //Устанавливаем менеджер размещения компонентов
-        contentPane.setLayout(borderLayout1);
+        // Создаем нижнюю панель
+
+        JPanel allbuttomPane = new JPanel(new BorderLayout());
+
+
+        buttomPane = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        //buttomPane.
+        ChatArea = new JTextArea("", 3, 40);
+        buttomPane.add(ChatArea);
+        send = new JButton("Отправить");
+        send.addMouseListener(new MenuMouseAdapter("Отправить сообщение.", " ", status));
+        send.addMouseListener(new MouseAdapter() {
+                                   @Override
+                                   public void mousePressed(MouseEvent e) {
+                                       status.setText("");
+                                       if (ChatArea.getText() == "") return;
+
+                                       // Отправка
+                                       JOptionPane.showConfirmDialog(null, "Уже есть открытый документ. Сохраниить его?",
+                                               "Внимание!", JOptionPane.YES_NO_OPTION);
+
+                                       //contentPane.updateUI();
+                                   }
+                               });
+
+        buttomPane.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
+        buttomPane.add(send);
+
+        allbuttomPane.add(buttomPane, BorderLayout.CENTER);
+
         //Создаём рамку для строки статуса
         Border border = BorderFactory.createEtchedBorder(Color.white, Color.white);
         status.setBorder(border);
         //Делаем фон строки непрозрачным
         status.setOpaque(true);
         //Добавляем стоку статуса на панель
-        contentPane.add(status, BorderLayout.SOUTH);
+        allbuttomPane.add(status, BorderLayout.SOUTH);
+
+        textArea = new JTextArea();
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        JScrollBar vertical = new JScrollBar();
+        textArea.add(vertical);
+
+        Border border1 = BorderFactory.createEtchedBorder(Color.CYAN, Color.CYAN);
+        textArea.setBorder(border1);
+
+        contentPane = new JPanel(new BorderLayout());
+
+        JScrollPane scrPane = new JScrollPane(textArea);
+
+        contentPane.add(scrPane, BorderLayout.CENTER);
+        //contentPane.setBackground(new Color(250, 250, 250));
+        contentPane.setBackground(Color.blue);
+        contentPane.add(allbuttomPane, BorderLayout.SOUTH);
+        add(contentPane);
+        //centerPane.setLayout(borderLayout1);
+
+        //System.out.println(centerPane.getLocation().toString()+" " + centerPane.getSize().toString());
+        //textArea.setBounds(10,10,150,150);
+
         //Устанавливаем размер окна
-        this.setSize(new Dimension(800, 600));
+        this.setSize(new Dimension(600, 400));
         //Устанавливаем заголовок окна
-        this.setTitle("Просто редактор");
+        this.setTitle("ПростоЧат");
         //Устанавливаем положение окна центр рабочего стола
         this.setLocationRelativeTo(null);
         //Создаем основное меню
@@ -53,6 +106,7 @@ public class Myframe extends JFrame {
         item1.addMouseListener(new MouseAdapter() {
                                    @Override
                                    public void mousePressed(MouseEvent e) {
+                                       status.setText(" ");
                                        if (textArea != null) {
                                            if (JOptionPane.showConfirmDialog(null, "Уже есть открытый документ. Сохраниить его?",
                                                    "Внимание!", JOptionPane.YES_NO_OPTION) == 0) {
@@ -76,6 +130,7 @@ public class Myframe extends JFrame {
         item2.addMouseListener(new MouseAdapter() {
                                    @Override
                                    public void mousePressed(MouseEvent e) {
+                                       status.setText(" ");
                                        if (textArea != null) {
                                            if (JOptionPane.showConfirmDialog(null, "Есть открытый документ. Сохраниить его?",
                                                    "Внимание!", JOptionPane.YES_NO_OPTION) == 0) {
@@ -90,12 +145,11 @@ public class Myframe extends JFrame {
                                            contentPane.add(textArea, BorderLayout.CENTER);
                                        }
                                        if (!openFile()) return;
-
                                        contentPane.updateUI();
-
                                    }
                                }
         );
+        item2.addMouseListener(new MenuMouseAdapter("Открыть новый файл.", " ", status));
 
         JMenuItem item3 = new JMenuItem("Сохранить");
         item3.addMouseListener(new MenuMouseAdapter("Соxранить текущий файл.", " ", status));
@@ -138,6 +192,7 @@ public class Myframe extends JFrame {
                                         int g = (int) (Math.random() * 63 + 192);
                                         int b = (int) (Math.random() * 63 + 192);
                                         contentPane.setBackground(new Color(r, g, b));
+                                        status.setText(" ");
                                     }
                                 });
         itemv1.addMouseListener(new MenuMouseAdapter("Изменение цвета фона.", " ", status));
@@ -225,10 +280,5 @@ public class Myframe extends JFrame {
         if (e.getID() == WindowEvent.WINDOW_CLOSING) {
             System.exit(0);
         }
-    }
-
-    public static void main(String[] args) { //эта функция может быть и в другом классе
-        Myframe app = new Myframe(); //Создаем экземпляр нашего приложения
-        app.setVisible(true); //С этого момента приложение запущено!
     }
 }
