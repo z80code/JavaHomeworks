@@ -22,9 +22,7 @@ public class Appframe extends JFrame implements Listener {
     public Appframe() {
         /**Конструктор */
         enableEvents(AWTEvent.WINDOW_EVENT_MASK);
-
         UICreator UI = new UICreator(this);
-
         try {
             UI.initUI();
         } catch (Exception e) {
@@ -32,28 +30,32 @@ public class Appframe extends JFrame implements Listener {
         }
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        /**
-         * Добавляем отправителя
-         */
-        try {
-            socket = new Socket();
-            socket.connect(new InetSocketAddress("127.0.0.1", 8080));
-            connection = new Connection(socket);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Thread connectThread;
 
-        /**
-         * Запускаем слушателя.
-         */
-        inner = new Thread(new Runnable() {
-            @Override
-            public void run() {
+            connectThread = new Thread(()->{
 
-            }
-        });
+                boolean isConnected = false;
 
-        inner.start();
+                while(!isConnected){
+                // Добавляем соединение
+                try {
+                    socket = new Socket();
+                    socket.connect(new InetSocketAddress("192.168.1.2", 8080));
+                    connection = new Connection(socket);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                isConnected = true;
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+        connectThread.start();
     }
 
     protected void processWindowEvent(WindowEvent e) {

@@ -18,7 +18,7 @@ public class UICreator {
     JPanel buttomPane;
     JLabel status = new JLabel(" "); //Строка статуса
     JTextArea textArea;
-    JTextArea ChatArea;
+    JTextArea chatArea;
     JButton send;
 
 
@@ -33,8 +33,9 @@ public class UICreator {
 
         buttomPane = new JPanel(new FlowLayout(FlowLayout.LEFT));
         //buttomPane.
-        ChatArea = new JTextArea("", 3, 40);
-        buttomPane.add(ChatArea);
+        chatArea = new JTextArea("", 3, 40);
+        chatArea.setBorder(BorderFactory.createEtchedBorder(Color.orange, Color.white));
+        buttomPane.add(chatArea);
         send = new JButton("Отправить");
 
 
@@ -43,16 +44,17 @@ public class UICreator {
             @Override
             public void mousePressed(MouseEvent e) {
                 status.setText(" ");
-                if (ChatArea.getText() == "") return;
+                if (chatArea.getText() == "") return;
 
                 // Отправка
                 try {
-                    Form.connection.Send(ChatArea.getText());
+                    Form.connection.Send(chatArea.getText());
+                    textArea.append(chatArea.getText()+"\n");
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
 
-                ChatArea.setText("");
+                chatArea.setText("");
 //                JOptionPane.showConfirmDialog(null, "Уже есть открытый документ. Сохраниить его?",
 //                        "Внимание!", JOptionPane.YES_NO_OPTION);
                 //contentPane.updateUI();
@@ -215,6 +217,7 @@ public class UICreator {
         menuBar.add(menuView);
         //Устанавливаем полученное меню на окно
         Form.setJMenuBar(menuBar);
+        chatArea.setFocusable(true);
     }
 }
 

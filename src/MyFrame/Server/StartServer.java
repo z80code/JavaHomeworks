@@ -31,7 +31,6 @@ public class StartServer implements Closeable {
             Socket connected = server.accept();
             Thread newClient = new Thread(() -> {
                 {
-                    System.out.println("Соединение...");
                     Connecton newConnect = new Connecton(connected);
                     newConnect.run();
                 }
