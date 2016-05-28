@@ -1,12 +1,19 @@
-package MyFrame;
+package MyFrame.Client.ClientLogics;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
+import MyFrame.Client.Appframe;
+
 import javax.swing.*;
-import javax.swing.border.*;
+import javax.swing.border.Border;
+import java.awt.*;
+import java.awt.event.InputEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
 
-public class Appframe extends JFrame {
+public class UICreator {
+
+    Appframe Form;
+
     JPanel contentPane;
     JPanel buttomPane;
     JLabel status = new JLabel(" "); //Строка статуса
@@ -14,20 +21,13 @@ public class Appframe extends JFrame {
     JTextArea ChatArea;
     JButton send;
 
-    public Appframe() {
-        /**Конструктор */
-        enableEvents(AWTEvent.WINDOW_EVENT_MASK);
-        try {
-            jbInit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+    public UICreator(Appframe Form) {
+        this.Form = Form;
     }
 
-    private void jbInit() throws Exception {
+    public void initUI() {
         // Создаем нижнюю панель
-
         JPanel allbuttomPane = new JPanel(new BorderLayout());
 
 
@@ -36,20 +36,28 @@ public class Appframe extends JFrame {
         ChatArea = new JTextArea("", 3, 40);
         buttomPane.add(ChatArea);
         send = new JButton("Отправить");
+
+
         send.addMouseListener(new MenuMouseAdapter("Отправить сообщение.", " ", status));
         send.addMouseListener(new MouseAdapter() {
-                                   @Override
-                                   public void mousePressed(MouseEvent e) {
-                                       status.setText("");
-                                       if (ChatArea.getText() == "") return;
+            @Override
+            public void mousePressed(MouseEvent e) {
+                status.setText(" ");
+                if (ChatArea.getText() == "") return;
 
-                                       // Отправка
-                                       JOptionPane.showConfirmDialog(null, "Уже есть открытый документ. Сохраниить его?",
-                                               "Внимание!", JOptionPane.YES_NO_OPTION);
+                // Отправка
+                try {
+                    Form.connection.Send(ChatArea.getText());
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
 
-                                       //contentPane.updateUI();
-                                   }
-                               });
+                ChatArea.setText("");
+//                JOptionPane.showConfirmDialog(null, "Уже есть открытый документ. Сохраниить его?",
+//                        "Внимание!", JOptionPane.YES_NO_OPTION);
+                //contentPane.updateUI();
+            }
+        });
 
         buttomPane.setAlignmentX(JComponent.RIGHT_ALIGNMENT);
         buttomPane.add(send);
@@ -81,18 +89,18 @@ public class Appframe extends JFrame {
         //contentPane.setBackground(new Color(250, 250, 250));
         contentPane.setBackground(Color.blue);
         contentPane.add(allbuttomPane, BorderLayout.SOUTH);
-        add(contentPane);
+        Form.add(contentPane);
         //centerPane.setLayout(borderLayout1);
 
         //System.out.println(centerPane.getLocation().toString()+" " + centerPane.getSize().toString());
         //textArea.setBounds(10,10,150,150);
 
         //Устанавливаем размер окна
-        this.setSize(new Dimension(600, 400));
+        Form.setSize(new Dimension(600, 400));
         //Устанавливаем заголовок окна
-        this.setTitle("ПростоЧат");
+        Form.setTitle("ПростоЧат");
         //Устанавливаем положение окна центр рабочего стола
-        this.setLocationRelativeTo(null);
+        Form.setLocationRelativeTo(null);
         //Создаем основное меню
         JMenuBar menuBar = new JMenuBar();
         //Создаем подменю
@@ -106,12 +114,13 @@ public class Appframe extends JFrame {
         item1.addMouseListener(new MouseAdapter() {
                                    @Override
                                    public void mousePressed(MouseEvent e) {
+
                                        status.setText(" ");
                                        if (textArea != null) {
                                            if (JOptionPane.showConfirmDialog(null, "Уже есть открытый документ. Сохраниить его?",
                                                    "Внимание!", JOptionPane.YES_NO_OPTION) == 0) {
                                                // Сохраняем
-                                               if (!saveFile()) return;
+                                               if (!IO.saveFile(textArea)) return;
                                            } else {// не сохраняем и чистим
                                                textArea.setText("");
                                            }
@@ -135,7 +144,7 @@ public class Appframe extends JFrame {
                                            if (JOptionPane.showConfirmDialog(null, "Есть открытый документ. Сохраниить его?",
                                                    "Внимание!", JOptionPane.YES_NO_OPTION) == 0) {
                                                // Сохраняем
-                                               if (!saveFile()) return;
+                                               if (!IO.saveFile(textArea)) return;
                                            } else {// не сохраняем и чистим
                                                textArea.setText("");
                                            }
@@ -144,7 +153,7 @@ public class Appframe extends JFrame {
                                            textArea = new JTextArea();
                                            contentPane.add(textArea, BorderLayout.CENTER);
                                        }
-                                       if (!openFile()) return;
+                                       if (!IO.openFile(textArea)) return;
                                        contentPane.updateUI();
                                    }
                                }
@@ -156,7 +165,7 @@ public class Appframe extends JFrame {
         item3.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                saveFile();
+                IO.saveFile(textArea);
             }
         });
         JMenuItem item5 = new JMenuItem("Закрыть");
@@ -185,16 +194,16 @@ public class Appframe extends JFrame {
         itemv1.setAccelerator(KeyStroke.getKeyStroke(67, InputEvent.CTRL_MASK));
         //Создаём обработчик события по нажатию на элемент itemv1
         itemv1.addMouseListener(new MouseAdapter() {
-                                    @Override
-                                    public void mousePressed(MouseEvent e) {
-                                        //Случайным образом меняем цвет фона панели
-                                        int r = (int) (Math.random() * 63 + 192);
-                                        int g = (int) (Math.random() * 63 + 192);
-                                        int b = (int) (Math.random() * 63 + 192);
-                                        contentPane.setBackground(new Color(r, g, b));
-                                        status.setText(" ");
-                                    }
-                                });
+            @Override
+            public void mousePressed(MouseEvent e) {
+                //Случайным образом меняем цвет фона панели
+                int r = (int) (Math.random() * 63 + 192);
+                int g = (int) (Math.random() * 63 + 192);
+                int b = (int) (Math.random() * 63 + 192);
+                contentPane.setBackground(new Color(r, g, b));
+                status.setText(" ");
+            }
+        });
         itemv1.addMouseListener(new MenuMouseAdapter("Изменение цвета фона.", " ", status));
         //Добавляем "горячею клавишу"
         //itemv1.setAccelerator(KeyStroke.getKeyStroke(67, InputEvent.CTRL_MASK));
@@ -205,80 +214,7 @@ public class Appframe extends JFrame {
         menuBar.add(menuFile);
         menuBar.add(menuView);
         //Устанавливаем полученное меню на окно
-        this.setJMenuBar(menuBar);
-    }
-
-    private boolean openFile() {
-        JFileChooser fs = new JFileChooser();
-        File filename;
-        int choose = 0;
-        fs.showDialog(null, "Открыть");
-        filename = fs.getSelectedFile();
-        if (filename == null) return false;
-        if (!filename.exists()) {
-            choose = JOptionPane.showConfirmDialog(null, "Нет такого файла.",
-                    "Внимание!",  JOptionPane.OK_OPTION);
-            return false;
-        }
-        String s;
-        BufferedReader buffReader = null;
-        try {
-            buffReader = new BufferedReader(new FileReader(filename));
-            while ((s = buffReader.readLine()) != null) {
-                textArea.append(s);
-                textArea.append("\n");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (buffReader!=null) buffReader.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return false;
-        }
-    }
-
-    private boolean saveFile() {
-        JFileChooser fs = new JFileChooser();
-        File filename;
-        int choose = 0;
-        fs.showDialog(null, "Сохранить");
-        filename = fs.getSelectedFile();
-        if (filename == null) return false;
-        if (filename.exists())
-            choose = JOptionPane.showConfirmDialog(null, "Такой файл уже существует. Перезаписать его?",
-                    "Внимание!", JOptionPane.YES_NO_OPTION);
-        if (choose == 1) return false;
-        String txt = textArea.getText();
-        BufferedWriter bufferedWriter = null;
-        try {
-            bufferedWriter = new BufferedWriter(new FileWriter(filename));
-
-            bufferedWriter.append(txt);
-
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        } finally {
-            try {
-                if (bufferedWriter!=null)
-                {
-                    bufferedWriter.flush();
-                    bufferedWriter.close();
-                }
-
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-            return false;
-        }
-    }
-
-    protected void processWindowEvent(WindowEvent e) {
-        super.processWindowEvent(e);
-        if (e.getID() == WindowEvent.WINDOW_CLOSING) {
-            System.exit(0);
-        }
+        Form.setJMenuBar(menuBar);
     }
 }
+

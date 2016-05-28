@@ -1,4 +1,4 @@
-package MyFrame;
+package MyFrame.Client.ClientLogics;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
