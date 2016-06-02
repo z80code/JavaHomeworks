@@ -70,10 +70,16 @@ public class CSVReader<T extends Class> extends BufferedReader implements Iterat
     */
     private Object getValue(Field field, String str) throws IllegalAccessException, InstantiationException {
 
+        Object result = field.getType().newInstance();
+
         if (field.getType() == int.class) {
             return Integer.parseInt(str.trim());
-        } else
+        }
+        else if(field.getType() == String.class)
             return str.trim();
+
+
+        return null;
     }
 
     @Override

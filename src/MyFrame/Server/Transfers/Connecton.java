@@ -3,48 +3,74 @@ package MyFrame.Server.Transfers;
 import java.io.*;
 import java.net.Socket;
 
-public class Connecton implements Runnable, Closeable {
+public class Connecton extends Thread implements Runnable, Closeable {
+
+    public boolean isActiveConnection = false;
 
     private Socket clientSocket;
 
-    private boolean isConnected = false;
+    BufferedReader reader;
+    PrintWriter writer;
 
-    public Connecton(Socket clientSocket) {
+    public Listener onDataIn;
+
+    public void addListener(Listener _listener) {
+        onDataIn = _listener;
+    }
+
+    public Connecton(Socket clientSocket) throws IOException {
         this.clientSocket = clientSocket;
-        isConnected = true;
+        writer = new PrintWriter(clientSocket.getOutputStream(), true);
+        reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        isActiveConnection = true;
+    }
+
+    public void send(String message) {
+        if (!clientSocket.isConnected()) return;
+        if (message == null) return;
+        writer.println(message);
     }
 
     @Override
     public void run() {
-
         System.out.println(" Клиент: " + clientSocket.getInetAddress()
                 + ": " + clientSocket.getPort() + " подключился.");
 
         while (true) {
-           if(!isConnected) break;
+
+            if (clientSocket.isClosed() || !clientSocket.isConnected()) break;
+
+            String s = null;
             try {
-
-                BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                PrintWriter writer = new PrintWriter(clientSocket.getOutputStream(), true);
-                String s = reader.readLine();
-                System.out.println(" Клиент " + clientSocket.getInetAddress() + ": " + s);
-
-            } catch (IOException e) {
-                //e.printStackTrace();
-                System.out.println("Соединение с клиентом"+ clientSocket.getInetAddress()+" потеряно.");
-                isConnected = false;
-                try {
-                    this.close();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                    System.out.println("Ошибка закрытия соединения.");
+                s = reader.readLine();
+                if (s == null) {
+                    Thread.sleep(100);
+                    continue;
                 }
+            } catch (IOException e) {
+
+                break;
+                // e.printStackTrace();
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+            System.out.println(" Клиент " + clientSocket.getInetAddress() + ": " + s);
+            onDataIn.onDataReceived(s);
         }
+        System.out.println(" Клиент: " + clientSocket.getInetAddress()
+                + ": " + " отключился.");
+
     }
 
     @Override
     public void close() throws IOException {
+
+        if (reader != null) reader.close();
+        if (writer != null) writer.close();
         clientSocket.close();
+        isActiveConnection = false;
     }
+
+
 }

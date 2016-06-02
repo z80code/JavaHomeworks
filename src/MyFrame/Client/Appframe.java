@@ -3,6 +3,7 @@ package MyFrame.Client;
 import MyFrame.Client.ClientLogics.UICreator;
 import MyFrame.Client.ClientTransfer.Connection;
 import MyFrame.Client.ClientTransfer.Listener;
+import MyFrame.Server.Transfers.Connecton;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -12,50 +13,44 @@ import java.net.Socket;
 import java.util.ArrayList;
 import javax.swing.*;
 
-public class Appframe extends JFrame implements Listener {
+public class Appframe extends JFrame {
 
     private Socket socket;
     public Connection connection;
+    UICreator UI;
 
     private Thread inner;
 
     public Appframe() {
         /**Конструктор */
         enableEvents(AWTEvent.WINDOW_EVENT_MASK);
-        UICreator UI = new UICreator(this);
+        UI = new UICreator(this);
         try {
             UI.initUI();
         } catch (Exception e) {
             e.printStackTrace();
         }
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        socket = new Socket();
 
-        Thread connectThread;
+        try {
+            socket.connect(new InetSocketAddress("192.168.1.2", 8080));
+            connection = new Connection(socket);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        connection.addListener(new Listener() {
+            @Override
+            public void onDataReceived(String message) {
+                showMessage(message);
+            }
+        });
+        connection.start();
+    }
 
-            connectThread = new Thread(()->{
+    private void showMessage(String message) {
+        UI.textArea.append(message+"\n");
 
-                boolean isConnected = false;
-
-                while(!isConnected){
-                // Добавляем соединение
-                try {
-                    socket = new Socket();
-                    socket.connect(new InetSocketAddress("192.168.1.2", 8080));
-                    connection = new Connection(socket);
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                isConnected = true;
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-
-        connectThread.start();
     }
 
     protected void processWindowEvent(WindowEvent e) {
@@ -63,17 +58,6 @@ public class Appframe extends JFrame implements Listener {
         if (e.getID() == WindowEvent.WINDOW_CLOSING) {
             //if (inner!=null)
             System.exit(0);
-        }
-    }
-
-    @Override
-    public void onDataReceived() {
-
-        ArrayList<String> ComInner = (ArrayList<String>) connection.getTexts();
-
-        for (String str : ComInner
-                ) {
-            //textArea.append(str);
         }
     }
 }

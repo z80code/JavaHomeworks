@@ -17,7 +17,7 @@ public class UICreator {
     JPanel contentPane;
     JPanel buttomPane;
     JLabel status = new JLabel(" "); //Строка статуса
-    JTextArea textArea;
+    public JTextArea textArea;
     JTextArea chatArea;
     JButton send;
 
@@ -49,7 +49,7 @@ public class UICreator {
                 // Отправка
                 try {
                     Form.connection.Send(chatArea.getText());
-                    textArea.append(chatArea.getText()+"\n");
+                    textArea.append(chatArea.getText() + "\n");
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }

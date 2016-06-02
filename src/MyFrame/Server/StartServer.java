@@ -1,10 +1,10 @@
 package MyFrame.Server;
 
 import MyFrame.Server.Transfers.Connecton;
-import jdk.nashorn.internal.ir.WhileNode;
+import MyFrame.Server.Transfers.Listener;
 
-import java.awt.*;
-import java.io.*;
+import java.io.Closeable;
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -12,38 +12,49 @@ import java.util.List;
 
 public class StartServer implements Closeable {
 
-     static ServerSocket server;
+    static ServerSocket server;
 
-    private static List<Thread> connections = new ArrayList<>();
+    private static List<Connecton> connections = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
 
 //        try {
-            server = new ServerSocket(8080);
+        server = new ServerSocket(8080);
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //            System.out.println("Ошибка создания сервера.");
 //        }
         System.out.println("Ожидание соединения ...");
 
-        while(true){
+        while (true) {
 
             Socket connected = server.accept();
-            Thread newClient = new Thread(() -> {
-                {
-                    Connecton newConnect = new Connecton(connected);
-                    newConnect.run();
+
+            Connecton newClient = new Connecton(connected);
+
+            newClient.addListener(new Listener() {
+                @Override
+                public void onDataReceived(String message) {
+                    sendToAll(message);
                 }
             });
-            connections.add(newClient);
             newClient.start();
+            connections.add(newClient);
         }
     }
 
+    public static void sendToAll(String message) {
+        for (Connecton client : connections) {
+            client.send(message);
+
+        }
+    }
+
+
     @Override
     public void close() throws IOException {
-      if (server!=null) server.close();
-        for (Thread tr: connections) {
+        if (server != null) server.close();
+        for (Thread tr : connections) {
             tr.stop();
         }
     }
