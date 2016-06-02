@@ -1,6 +1,7 @@
 package MyFrame.Server;
 
-import MyFrame.Server.Transfers.Connecton;
+import MyFrame.Packet;
+import MyFrame.Server.Transfers.Connection;
 import MyFrame.Server.Transfers.Listener;
 
 import java.io.Closeable;
@@ -14,7 +15,9 @@ public class StartServer implements Closeable {
 
     static ServerSocket server;
 
-    private static List<Connecton> connections = new ArrayList<>();
+    private static int userID = 0;
+
+    private static List<Connection> connections = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
 
@@ -30,11 +33,15 @@ public class StartServer implements Closeable {
 
             Socket connected = server.accept();
 
-            Connecton newClient = new Connecton(connected);
-
+            Connection newClient = new Connection(connected, ++userID);
+            newClient.send(new Packet(0, userID, "Сервер: ", new ArrayList<String>() {
+                {
+                    this.add("Добро пожаловать!");
+                }
+            }));
             newClient.addListener(new Listener() {
                 @Override
-                public void onDataReceived(String message) {
+                public void onDataReceived(Packet message) {
                     sendToAll(message);
                 }
             });
@@ -43,9 +50,16 @@ public class StartServer implements Closeable {
         }
     }
 
-    public static void sendToAll(String message) {
-        for (Connecton client : connections) {
-            client.send(message);
+    public static void sendToAll(Packet message) {
+        for (Connection client : connections) {
+            try {
+                if (client.userID != message.ID) {
+                    client.send(message);
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         }
     }

@@ -1,5 +1,7 @@
 package MyFrame.Client.ClientTransfer;
 
+import MyFrame.Packet;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -10,18 +12,22 @@ public class Connection<T> extends Thread implements Runnable, Closeable {
 
     private Socket client;
 
+    public int userID;
+
     private List<T> texts = new ArrayList<>();
 
     private Listener onDataIn;
 
-    PrintWriter writer;
+//    PrintWriter writer;
+//    BufferedReader reader;
 
-    BufferedReader reader;
+    ObjectOutputStream writer;
+    ObjectInputStream reader;
 
     public Connection(Socket socket) throws IOException {
         client = socket;
-        writer = new PrintWriter(client.getOutputStream(),true);
-        reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
+        writer = new ObjectOutputStream(client.getOutputStream());
+        reader = new ObjectInputStream(client.getInputStream());
     }
 
     public void addListener(Listener _listener) {
@@ -44,31 +50,34 @@ public class Connection<T> extends Thread implements Runnable, Closeable {
 
             if (client.isClosed() || !client.isConnected()) break;
 
-            String s = null;
+            Packet s = null;
             try {
-                s = reader.readLine();
-                if(s==null){
+                s = (Packet)reader.readObject();
+                if (s == null) {
                     Thread.sleep(100);
                     continue;
                 }
+                if( s.type==0)
+                {
+                    userID = s.ID;
+                }
+
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
                 e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
             }
-            System.out.println(" Клиент " + client.getInetAddress() + ": " + s);
             onDataIn.onDataReceived(s);
         }
-        System.out.println(" Server: " + client.getInetAddress()
-                + ": " + " отключился.");
-
     }
 
 
     public void Send(T message) throws IOException {
         if (!client.isConnected()) return;
-        if(message==null) return;
-        writer.println(message);
+        if (message == null) return;
+        writer.writeObject(message);
     }
 
 

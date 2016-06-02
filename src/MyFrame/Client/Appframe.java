@@ -3,20 +3,19 @@ package MyFrame.Client;
 import MyFrame.Client.ClientLogics.UICreator;
 import MyFrame.Client.ClientTransfer.Connection;
 import MyFrame.Client.ClientTransfer.Listener;
-import MyFrame.Server.Transfers.Connecton;
+import MyFrame.Packet;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.util.ArrayList;
 import javax.swing.*;
 
 public class Appframe extends JFrame {
 
     private Socket socket;
-    public Connection connection;
+    public Connection conection;
     UICreator UI;
 
     private Thread inner;
@@ -35,21 +34,26 @@ public class Appframe extends JFrame {
 
         try {
             socket.connect(new InetSocketAddress("192.168.1.2", 8080));
-            connection = new Connection(socket);
+            conection = new Connection(socket);
+            conection.addListener(new Listener() {
+                @Override
+                public void onDataReceived(Packet message) {
+                    showMessage(message);
+                }
+            });
+
+            conection.start();
         } catch (IOException e) {
-            e.printStackTrace();
+            UI.textArea.append("Сервер отключен." + "\n");
         }
-        connection.addListener(new Listener() {
-            @Override
-            public void onDataReceived(String message) {
-                showMessage(message);
-            }
-        });
-        connection.start();
+
     }
 
-    private void showMessage(String message) {
-        UI.textArea.append(message+"\n");
+    private void showMessage(Packet message) {
+        UI.textArea.append(message.name + ":\n");
+        for (String str: message.strings) {
+            UI.textArea.append( str+"\n");
+        }
 
     }
 

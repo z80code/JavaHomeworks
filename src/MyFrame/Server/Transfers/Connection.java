@@ -1,16 +1,23 @@
 package MyFrame.Server.Transfers;
 
+import MyFrame.Packet;
+
 import java.io.*;
 import java.net.Socket;
 
-public class Connecton extends Thread implements Runnable, Closeable {
+public class Connection extends Thread implements Runnable, Closeable {
 
     public boolean isActiveConnection = false;
 
     private Socket clientSocket;
 
-    BufferedReader reader;
-    PrintWriter writer;
+    ObjectInputStream reader;
+    ObjectOutputStream writer;
+
+    public int userID;
+
+//    BufferedReader reader;
+//    PrintWriter writer;
 
     public Listener onDataIn;
 
@@ -18,17 +25,19 @@ public class Connecton extends Thread implements Runnable, Closeable {
         onDataIn = _listener;
     }
 
-    public Connecton(Socket clientSocket) throws IOException {
+    public Connection(Socket clientSocket, int userID) throws IOException {
+        this.userID = userID;
         this.clientSocket = clientSocket;
-        writer = new PrintWriter(clientSocket.getOutputStream(), true);
-        reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        writer = new ObjectOutputStream(clientSocket.getOutputStream());
+        reader = new ObjectInputStream(clientSocket.getInputStream());
         isActiveConnection = true;
     }
 
-    public void send(String message) {
+    public void send(Packet message) throws IOException {
         if (!clientSocket.isConnected()) return;
         if (message == null) return;
-        writer.println(message);
+        //message.ID = userID;
+        writer.writeObject(message);
     }
 
     @Override
@@ -40,27 +49,32 @@ public class Connecton extends Thread implements Runnable, Closeable {
 
             if (clientSocket.isClosed() || !clientSocket.isConnected()) break;
 
-            String s = null;
+            Packet s = null;
             try {
-                s = reader.readLine();
+                s = (Packet)reader.readObject();
                 if (s == null) {
                     Thread.sleep(100);
                     continue;
                 }
             } catch (IOException e) {
-
+                //e.printStackTrace();
                 break;
-                // e.printStackTrace();
+
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
             }
-            System.out.println(" Клиент " + clientSocket.getInetAddress() + ": " + s);
-            onDataIn.onDataReceived(s);
+            System.out.println(" Клиент "+ userID +": " + clientSocket.getInetAddress() + " -> " + s);
+            try {
+                onDataIn.onDataReceived(s);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         System.out.println(" Клиент: " + clientSocket.getInetAddress()
                 + ": " + " отключился.");
-
     }
 
     @Override
@@ -71,6 +85,4 @@ public class Connecton extends Thread implements Runnable, Closeable {
         clientSocket.close();
         isActiveConnection = false;
     }
-
-
 }

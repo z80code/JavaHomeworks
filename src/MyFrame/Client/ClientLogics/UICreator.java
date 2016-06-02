@@ -1,6 +1,7 @@
 package MyFrame.Client.ClientLogics;
 
 import MyFrame.Client.Appframe;
+import MyFrame.Packet;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -9,6 +10,8 @@ import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.*;
+import java.util.List;
 
 public class UICreator {
 
@@ -18,6 +21,7 @@ public class UICreator {
     JPanel buttomPane;
     JLabel status = new JLabel(" "); //Строка статуса
     public JTextArea textArea;
+    JTextField nameArea;
     JTextArea chatArea;
     JButton send;
 
@@ -33,11 +37,15 @@ public class UICreator {
 
         buttomPane = new JPanel(new FlowLayout(FlowLayout.LEFT));
         //buttomPane.
-        chatArea = new JTextArea("", 3, 40);
+        chatArea = new JTextArea("", 1, 35);
+        //chatArea.setFocusable(true);
+        nameArea = new JTextField("", 7);
+
         chatArea.setBorder(BorderFactory.createEtchedBorder(Color.orange, Color.white));
+        buttomPane.add(nameArea);
         buttomPane.add(chatArea);
         send = new JButton("Отправить");
-
+        send.setSize(50, 28);
 
         send.addMouseListener(new MenuMouseAdapter("Отправить сообщение.", " ", status));
         send.addMouseListener(new MouseAdapter() {
@@ -48,10 +56,21 @@ public class UICreator {
 
                 // Отправка
                 try {
-                    Form.connection.Send(chatArea.getText());
-                    textArea.append(chatArea.getText() + "\n");
+                    if (Form.conection == null) {
+                        textArea.append("Нет соединения c сервером. Перезапустите приложение." + "\n");
+                    } else {
+                        List<String> list = new ArrayList<String>();
+                        list.add(chatArea.getText());
+                        String name = nameArea.getText();
+                        if(name.equals("") || name==null) name ="Anonymous";
+                        Packet pack = new Packet(1, Form.conection.userID,  name, list);
+                        Form.conection.Send(pack);
+                        textArea.append(chatArea.getText() + "\n");
+                    }
+
                 } catch (IOException e1) {
-                    e1.printStackTrace();
+
+                    //e1.printStackTrace();
                 }
 
                 chatArea.setText("");
@@ -77,6 +96,7 @@ public class UICreator {
         textArea = new JTextArea();
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
+        textArea.setEditable(false);
         JScrollBar vertical = new JScrollBar();
         textArea.add(vertical);
 
