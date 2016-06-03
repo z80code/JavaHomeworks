@@ -33,7 +33,7 @@ public class Appframe extends JFrame {
         socket = new Socket();
 
         try {
-            socket.connect(new InetSocketAddress("192.168.1.2", 8080));
+            socket.connect(new InetSocketAddress("178.121.20.63", 8080));
             conection = new Connection(socket);
             conection.addListener(new Listener() {
                 @Override

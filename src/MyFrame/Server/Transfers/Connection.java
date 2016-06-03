@@ -60,7 +60,6 @@ public class Connection extends Thread implements Runnable, Closeable {
                 //e.printStackTrace();
                 break;
 
-
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
