@@ -1,0 +1,52 @@
+group 'com.company'
+version '0.0.1'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+apply plugin: "java"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+//def variableName = '4.2.5.RELEASE'
+
+dependencies {
+	compile group: 'com.google.inject', name: 'guice', version: '3.0'
+	compile group: 'com.h2database', name: 'h2', version: '1.4.192'
+}
+
+// source dirs
+sourceSets {
+	main.java.srcDir "src/main"
+	test.java.srcDir "src/test"
+}
+
+// configure jar task
+jar {
+	from configurations.compile.collect { zipTree it  }
+	manifest.attributes "Main-Class": "com.company.arhitype.Run"
+}
+
+task run(type: JavaExec, dependsOn: classes) {
+	main 'com.company.arhitype.Run'
+	classpath sourceSets.main.runtimeClasspath
+	args 'Hello'
+}
+
+task runJar(type: Exec, dependsOn: jar) {
+	executable 'java'
+	args '-jar', "$jar.archivePath", 'Param if you want'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.3'
+}
+
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
